@@ -13,6 +13,7 @@
 		5459A85E21493B17001154BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5459A85D21493B17001154BE /* Assets.xcassets */; };
 		5459A86121493B17001154BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5459A85F21493B17001154BE /* LaunchScreen.storyboard */; };
 		5459A86421493B17001154BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5459A86321493B17001154BE /* main.m */; };
+		5459A86D21493C44001154BE /* XYPhotoBrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5459A86C21493C44001154BE /* XYPhotoBrowserVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		5459A86021493B17001154BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5459A86221493B17001154BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5459A86321493B17001154BE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5459A86B21493C44001154BE /* XYPhotoBrowserVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYPhotoBrowserVC.h; sourceTree = "<group>"; };
+		5459A86C21493C44001154BE /* XYPhotoBrowserVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYPhotoBrowserVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,7 @@
 		5459A85321493B16001154BE /* PhotoBrowserDemo */ = {
 			isa = PBXGroup;
 			children = (
+				5459A86A21493B38001154BE /* PhotoBrowser */,
 				5459A85421493B16001154BE /* AppDelegate.h */,
 				5459A85521493B16001154BE /* AppDelegate.m */,
 				5459A85721493B16001154BE /* ViewController.h */,
@@ -69,6 +73,15 @@
 				5459A86321493B17001154BE /* main.m */,
 			);
 			path = PhotoBrowserDemo;
+			sourceTree = "<group>";
+		};
+		5459A86A21493B38001154BE /* PhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				5459A86B21493C44001154BE /* XYPhotoBrowserVC.h */,
+				5459A86C21493C44001154BE /* XYPhotoBrowserVC.m */,
+			);
+			path = PhotoBrowser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -97,6 +110,7 @@
 		5459A84921493B16001154BE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = XY;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = xiezongyuan;
 				TargetAttributes = {
@@ -142,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5459A85921493B16001154BE /* ViewController.m in Sources */,
+				5459A86D21493C44001154BE /* XYPhotoBrowserVC.m in Sources */,
 				5459A86421493B17001154BE /* main.m in Sources */,
 				5459A85621493B16001154BE /* AppDelegate.m in Sources */,
 			);
