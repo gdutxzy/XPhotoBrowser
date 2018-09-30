@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +13,63 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x.png" translatesAutoresizingMaskIntoConstraints="NO" id="gE0-zh-m88">
+                                <rect key="frame" x="26" y="52" width="106" height="102"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="102" id="Qxs-6z-KVh"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="u7t-w2-AI2" appends="YES" id="eVC-Zk-XZg"/>
+                                </connections>
+                            </imageView>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tip-cU-FtK">
+                                <rect key="frame" x="26" y="186" width="106" height="107"/>
+                                <color key="backgroundColor" red="0.26582443859999999" green="1" blue="0.263732038" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="AQe-gS-WrF" appends="YES" id="fh4-m0-3Xf"/>
+                                </connections>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="tip-cU-FtK" firstAttribute="top" secondItem="gE0-zh-m88" secondAttribute="bottom" constant="32" id="6wr-2m-a79"/>
+                            <constraint firstItem="gE0-zh-m88" firstAttribute="trailing" secondItem="tip-cU-FtK" secondAttribute="trailing" id="8LA-Ne-how"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gE0-zh-m88" secondAttribute="trailing" constant="243" id="HXN-xc-Jbn"/>
+                            <constraint firstItem="gE0-zh-m88" firstAttribute="leading" secondItem="tip-cU-FtK" secondAttribute="leading" id="KhE-a0-S4n"/>
+                            <constraint firstItem="gE0-zh-m88" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="Lgk-6F-Z5Y"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tip-cU-FtK" secondAttribute="bottom" constant="374" id="Q8h-zB-iH0"/>
+                            <constraint firstItem="gE0-zh-m88" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="XgU-46-aEG"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="imageView1" destination="gE0-zh-m88" id="BZz-SI-ecg"/>
+                        <outlet property="imageView2" destination="tip-cU-FtK" id="wDa-d5-CaQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="u7t-w2-AI2">
+                    <connections>
+                        <action selector="imageViewTap:" destination="BYZ-38-t0r" id="HFJ-m5-BlT"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="AQe-gS-WrF">
+                    <connections>
+                        <action selector="imageViewTap:" destination="BYZ-38-t0r" id="Kgs-Ea-20L"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="x.png" width="45" height="45"/>
+    </resources>
 </document>
