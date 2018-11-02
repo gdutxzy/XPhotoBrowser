@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		54347955218C3C5900003BDE /* XYPhotoBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 54347954218C3C5900003BDE /* XYPhotoBrowserCell.m */; };
+		54347958218C599900003BDE /* UIView+XYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 54347957218C599900003BDE /* UIView+XYExtension.m */; };
 		5459A85621493B16001154BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5459A85521493B16001154BE /* AppDelegate.m */; };
 		5459A85921493B16001154BE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5459A85821493B16001154BE /* ViewController.m */; };
 		5459A85C21493B16001154BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5459A85A21493B16001154BE /* Main.storyboard */; };
@@ -23,6 +24,8 @@
 		2E416F7A2F51647E132C9CE4 /* libPods-PhotoBrowserDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhotoBrowserDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54347953218C3C5900003BDE /* XYPhotoBrowserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYPhotoBrowserCell.h; sourceTree = "<group>"; };
 		54347954218C3C5900003BDE /* XYPhotoBrowserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYPhotoBrowserCell.m; sourceTree = "<group>"; };
+		54347956218C599900003BDE /* UIView+XYExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+XYExtension.h"; sourceTree = "<group>"; };
+		54347957218C599900003BDE /* UIView+XYExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+XYExtension.m"; sourceTree = "<group>"; };
 		5459A85121493B16001154BE /* PhotoBrowserDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBrowserDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5459A85421493B16001154BE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		5459A85521493B16001154BE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 				5459A86C21493C44001154BE /* XYPhotoBrowserVC.m */,
 				54347953218C3C5900003BDE /* XYPhotoBrowserCell.h */,
 				54347954218C3C5900003BDE /* XYPhotoBrowserCell.m */,
+				54347956218C599900003BDE /* UIView+XYExtension.h */,
+				54347957218C599900003BDE /* UIView+XYExtension.m */,
 			);
 			path = PhotoBrowser;
 			sourceTree = "<group>";
@@ -213,6 +218,7 @@
 				5459A85921493B16001154BE /* ViewController.m in Sources */,
 				5459A86D21493C44001154BE /* XYPhotoBrowserVC.m in Sources */,
 				5459A86421493B17001154BE /* main.m in Sources */,
+				54347958218C599900003BDE /* UIView+XYExtension.m in Sources */,
 				5459A85621493B16001154BE /* AppDelegate.m in Sources */,
 				54347955218C3C5900003BDE /* XYPhotoBrowserCell.m in Sources */,
 			);

@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x.png" translatesAutoresizingMaskIntoConstraints="NO" id="gE0-zh-m88">
-                                <rect key="frame" x="26" y="52" width="106" height="102"/>
+                                <rect key="frame" x="26" y="80" width="106" height="102"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="102" id="Qxs-6z-KVh"/>
@@ -29,7 +29,7 @@
                                 </connections>
                             </imageView>
                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tip-cU-FtK">
-                                <rect key="frame" x="26" y="186" width="106" height="107"/>
+                                <rect key="frame" x="26" y="214" width="106" height="79"/>
                                 <color key="backgroundColor" red="0.26582443859999999" green="1" blue="0.263732038" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -43,7 +43,7 @@
                             <constraint firstItem="gE0-zh-m88" firstAttribute="trailing" secondItem="tip-cU-FtK" secondAttribute="trailing" id="8LA-Ne-how"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gE0-zh-m88" secondAttribute="trailing" constant="243" id="HXN-xc-Jbn"/>
                             <constraint firstItem="gE0-zh-m88" firstAttribute="leading" secondItem="tip-cU-FtK" secondAttribute="leading" id="KhE-a0-S4n"/>
-                            <constraint firstItem="gE0-zh-m88" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="Lgk-6F-Z5Y"/>
+                            <constraint firstItem="gE0-zh-m88" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="Lgk-6F-Z5Y"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tip-cU-FtK" secondAttribute="bottom" constant="374" id="Q8h-zB-iH0"/>
                             <constraint firstItem="gE0-zh-m88" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="26" id="XgU-46-aEG"/>
                         </constraints>
