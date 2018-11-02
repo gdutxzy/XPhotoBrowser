@@ -36,6 +36,7 @@
 
 - (void)setupView {
     [self addSubview:self.scrollView];
+    [self.scrollView addSubview:self.imageView];
 
     UIView *scrollView = self.scrollView;
     scrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -45,6 +46,7 @@
 
 - (void)updateImageUrl:(NSString *)imageUrl image:(UIImage *)image{
     _imageUrl = imageUrl;
+
     if (!image) {
         image = [self imageWithColor:[UIColor colorWithWhite:0.8 alpha:1]];
     }
@@ -58,7 +60,10 @@
     }
 }
 
-
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    [self setImage:self.image];
+}
 
 /// 计算imageview的center
 - (CGPoint)centerOfScrollViewContent:(UIScrollView *)scrollView
@@ -137,20 +142,26 @@
 #pragma mark - setter
 - (void)setImage:(UIImage * _Nonnull)image{
     _image = image;
-    [self.imageView removeFromSuperview];
-    [self.scrollView addSubview:self.imageView];
 
-    
+    CGFloat maxWidth = CGRectGetWidth(self.bounds);
+    CGFloat maxHeight = CGRectGetHeight(self.bounds);
+    CGSize size = CGSizeMake(maxWidth, maxHeight);
     CGSize imageSize = image.size;
-    CGFloat imageViewWidth = CGRectGetWidth(self.bounds);
-    CGFloat imageViewHeight = imageSize.height / imageSize.width * imageViewWidth;
-    self.imageView.width = imageViewWidth;
-    self.imageView.height = imageViewHeight;
+    if (image && !isnan(imageSize.width) && !isnan(imageSize.height)) {
+        if (imageSize.height/imageSize.width > maxHeight/maxWidth) { // 高度长图，以高度为比例基准
+            size = CGSizeMake(round(maxHeight*imageSize.width/imageSize.height), maxHeight);
+        }else{ // 以宽度为比例基准
+            size = CGSizeMake(maxWidth,round(maxWidth*imageSize.height/imageSize.width));
+        }
+    }
+
+    self.imageView.width = size.width;
+    self.imageView.height = size.height;
     self.imageView.image = image;
     self.scrollView.contentSize = self.imageView.bounds.size;
+   
     self.imageView.center = [self centerOfScrollViewContent:_scrollView];
-    NSLog(@">>>>>>>image:%@",@(self.imageView.bounds.size));
-
+  
 }
 
 

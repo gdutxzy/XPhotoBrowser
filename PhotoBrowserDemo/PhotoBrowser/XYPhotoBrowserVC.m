@@ -15,7 +15,8 @@
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) NSArray<NSValue*> *imageOriginalFrameArray;
 
-@property (nonatomic,assign) BOOL hiddenStatusBar;
+/// 锁定图片下标，防止旋转屏幕或3D-Touch导致的下标偏移
+@property (nonatomic,assign) BOOL lockIndex;
 @end
 
 @implementation XYPhotoBrowserVC
@@ -25,10 +26,12 @@
                                imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex{
     XYPhotoBrowserVC *vc = [[XYPhotoBrowserVC alloc] init];
+    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext; // 保留上一层viewcontroller
     vc->_imageUrlArray = imageUrlArray;
     vc->_imageArray = imageArray;
     vc->_imageViewArray = imageViewArray;
     vc->_currentImageIndex = currentImageIndex;
+    vc.lockIndex = NO;
     NSMutableArray *frameArray = [NSMutableArray arrayWithCapacity:imageViewArray.count];
     for (UIView *imageView in imageViewArray) {
         CGRect rect = [imageView convertRect:imageView.frame toView:[UIApplication sharedApplication].delegate.window];
@@ -45,9 +48,9 @@
         CGSize imageSize = image.size;
         if (image && !isnan(imageSize.width) && !isnan(imageSize.height)) {
             if (imageSize.height/imageSize.width > maxHeight/maxWidth) { // 高度长图，以高度为比例基准
-                size = CGSizeMake(maxHeight*imageSize.width/imageSize.height, maxHeight);
+                size = CGSizeMake(round(maxHeight*imageSize.width/imageSize.height), maxHeight);
             }else{ // 以宽度为比例基准
-                size = CGSizeMake(maxWidth, maxWidth*imageSize.height/imageSize.width);
+                size = CGSizeMake(maxWidth,round(maxWidth*imageSize.height/imageSize.width));
             }
         }
     }
@@ -56,22 +59,12 @@
     return vc;
 }
 
-- (instancetype)init{
-    self = [super init];
-    if (self) {
-        self.modalPresentationStyle = UIModalPresentationOverCurrentContext; // 保留上一层viewcontroller
-        self.hiddenStatusBar = [UIApplication sharedApplication].statusBarHidden;
-    }
-    return self;
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.collectionView];
     
-// 旋转过程中，约束会报一大推错误
     UIView *collectionView = self.collectionView;
     collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[collectionView]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(collectionView)]];
@@ -88,17 +81,18 @@
     [self.collectionView reloadData];
 }
 
+- (void)viewDidLayoutSubviews{
+    [self setCurrentImageIndex:self.currentImageIndex];
+    self.lockIndex = CGRectGetHeight(self.view.bounds)<CGRectGetHeight([UIScreen mainScreen].bounds)-20;
+}
+
 - (BOOL)prefersStatusBarHidden{
     return YES;
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator{
     [self.collectionView reloadData];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self.collectionView reloadData];
-//        self.collectionView.frame = self.view.frame;
-
-    });
+    self.lockIndex = YES;
 }
 
 
@@ -110,7 +104,6 @@
 
 #pragma mark - UICollectionViewDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@">>>>>>>cell:%@",@(collectionView.bounds.size));
     return collectionView.bounds.size;
 }
 
@@ -142,7 +135,7 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    if (scrollView.contentOffset.x > 0 && scrollView.contentOffset.x < scrollView.contentSize.width) {
+    if (!self.lockIndex && scrollView.contentOffset.x > 0 && scrollView.contentOffset.x < scrollView.contentSize.width) {
         _currentImageIndex = floor(scrollView.contentOffset.x/CGRectGetWidth(scrollView.bounds));
     }
 }
