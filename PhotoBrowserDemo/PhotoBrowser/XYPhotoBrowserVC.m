@@ -104,10 +104,13 @@
 
 
 #pragma mark - XYPhotoBrowserCellDelegate
-
+- (void)photoBrowserCellDidTap:(XYPhotoBrowserCell *)cell{
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
 
 #pragma mark - UICollectionViewDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@">>>>>>>cell:%@",@(collectionView.bounds.size));
     return collectionView.bounds.size;
 }
 
@@ -130,6 +133,8 @@
         imageUrl = self.imageUrlArray[indexPath.row];
     }
     [cell updateImageUrl:imageUrl image:image];
+    cell.delegate = self;
+    
     cell.backgroundColor = indexPath.row == 1?[UIColor redColor]:[UIColor yellowColor];
     return cell;
 }

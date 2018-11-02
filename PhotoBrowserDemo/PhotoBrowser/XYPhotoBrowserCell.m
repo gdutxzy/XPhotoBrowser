@@ -36,7 +36,6 @@
 
 - (void)setupView {
     [self addSubview:self.scrollView];
-    [self.scrollView addSubview:self.imageView];
 
     UIView *scrollView = self.scrollView;
     scrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -101,7 +100,7 @@
 - (void)singleTapAction:(UITapGestureRecognizer *)recognizer
 {
     if ([self.delegate respondsToSelector:@selector(photoBrowserCellDidTap:)]) {
-        
+        [self.delegate photoBrowserCellDidTap:self];
     }
 //    if (self.delegate && [self.delegate respondsToSelector:@selector(photoBrowserSubScrollViewDoSingleTapWithImageFrame:)])
 //    {
@@ -138,14 +137,20 @@
 #pragma mark - setter
 - (void)setImage:(UIImage * _Nonnull)image{
     _image = image;
+    [self.imageView removeFromSuperview];
+    [self.scrollView addSubview:self.imageView];
+
+    
     CGSize imageSize = image.size;
-    CGFloat imageViewWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+    CGFloat imageViewWidth = CGRectGetWidth(self.bounds);
     CGFloat imageViewHeight = imageSize.height / imageSize.width * imageViewWidth;
     self.imageView.width = imageViewWidth;
     self.imageView.height = imageViewHeight;
     self.imageView.image = image;
     self.scrollView.contentSize = self.imageView.bounds.size;
     self.imageView.center = [self centerOfScrollViewContent:_scrollView];
+    NSLog(@">>>>>>>image:%@",@(self.imageView.bounds.size));
+
 }
 
 
