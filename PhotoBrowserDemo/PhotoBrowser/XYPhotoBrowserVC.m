@@ -22,7 +22,7 @@
 
 + (instancetype)photoBrowserWithImageURLs:(nullable NSArray<NSString*> *)imageUrlArray
                                    images:(nullable NSArray<UIImage*> *)imageArray
-                               imageViews:(nonnull NSArray<__kindof UIView*> *)imageViewArray
+                               imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex{
     XYPhotoBrowserVC *vc = [[XYPhotoBrowserVC alloc] init];
     vc->_imageUrlArray = imageUrlArray;
@@ -36,8 +36,23 @@
     }
     vc.imageOriginalFrameArray = frameArray;
     
-
-//    vc.preferredContentSize = CGSizeMake(200, 200);
+    // 计算预览大小
+    CGFloat maxWidth = CGRectGetWidth([UIScreen mainScreen].bounds)-30;
+    CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds)-60;
+    CGSize size = CGSizeMake(maxWidth, maxHeight);
+    if (currentImageIndex < imageViewArray.count) {
+        UIImage *image = imageViewArray[currentImageIndex].image;
+        CGSize imageSize = image.size;
+        if (image && !isnan(imageSize.width) && !isnan(imageSize.height)) {
+            if (imageSize.height/imageSize.width > maxHeight/maxWidth) { // 高度长图，以高度为比例基准
+                size = CGSizeMake(maxHeight*imageSize.width/imageSize.height, maxHeight);
+            }else{ // 以宽度为比例基准
+                size = CGSizeMake(maxWidth, maxWidth*imageSize.height/imageSize.width);
+            }
+        }
+    }
+    vc.preferredContentSize = size;
+    
     return vc;
 }
 

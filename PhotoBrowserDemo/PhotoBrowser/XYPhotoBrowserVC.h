@@ -12,7 +12,7 @@
 
 @property (nonatomic,strong,readonly) NSArray<UIImage*> *imageArray;
 @property (nonatomic,strong,readonly) NSArray<NSString*> *imageUrlArray;
-@property (nonatomic,strong,readonly) NSArray<__kindof UIView*> *imageViewArray;
+@property (nonatomic,strong,readonly) NSArray<UIImageView*> *imageViewArray;
 @property (nonatomic,assign) NSInteger currentImageIndex;
 /**
  是否隐藏原图。当拖动图片进入半透明背景的跟随状态时，是否隐藏原来的图片。默认隐藏，default is YES。
@@ -31,7 +31,7 @@
  */
 + (instancetype)photoBrowserWithImageURLs:(nullable NSArray<NSString*> *)imageUrlArray
                                    images:(nullable NSArray<UIImage*> *)imageArray
-                               imageViews:(nonnull NSArray<__kindof UIView*> *)imageViewArray
+                               imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex;
 
 @end

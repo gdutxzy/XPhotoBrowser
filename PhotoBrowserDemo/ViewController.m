@@ -19,7 +19,7 @@
 @implementation ViewController
 - (IBAction)imageViewTap:(UITapGestureRecognizer *)sender {
     UIImageView *imageView = (UIImageView *)sender.view;
-    NSArray *urlArray = @[@"http://g.hiphotos.baidu.com/image/h%3D300/sign=6f4318466e2762d09f3ea2bf90ed0849/5243fbf2b211931376d158d568380cd790238dc1.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541175831662&di=b73bbc36860f1784d3350f59327dc539&imgtype=0&src=http%3A%2F%2Fimg1.coin163.com%2F70%2F27%2FeIjq6r.gif"];
+    NSArray *urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
     NSArray *imageArray = @[self.imageView1,self.imageView2];
     NSInteger index = [imageArray indexOfObject:imageView];
     index = index == NSNotFound ? 0:index;
@@ -44,7 +44,7 @@
     }
     
     [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"]];
-    [self.imageView1 sd_setImageWithURL:[NSURL URLWithString:@"http://g.hiphotos.baidu.com/image/h%3D300/sign=6f4318466e2762d09f3ea2bf90ed0849/5243fbf2b211931376d158d568380cd790238dc1.jpg"]];
+    [self.imageView1 sd_setImageWithURL:[NSURL URLWithString:@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg"]];
 
     [self registerForPreviewingWithDelegate:self sourceView:self.imageView1];
     [self registerForPreviewingWithDelegate:self sourceView:self.imageView2];
@@ -58,7 +58,7 @@
 }
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
-    NSArray *urlArray = @[@"http://g.hiphotos.baidu.com/image/h%3D300/sign=6f4318466e2762d09f3ea2bf90ed0849/5243fbf2b211931376d158d568380cd790238dc1.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
+    NSArray *urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
     NSArray *imageArray = @[self.imageView1,self.imageView2];
     NSInteger index = [imageArray indexOfObject:previewingContext.sourceView];
     index = index == NSNotFound ? 0:index;
