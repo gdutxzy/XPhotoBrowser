@@ -8,8 +8,10 @@
 
 #import "XYPhotoBrowserVC.h"
 #import "XYPhotoBrowserCell.h"
+#import <Photos/PHPhotoLibrary.h>
 
-@interface XYPhotoBrowserVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate>
+
+@interface XYPhotoBrowserVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,XYPhotoBrowserCellDelegate>
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) NSArray<NSValue*> *imageOriginalFrameArray;
 
@@ -34,6 +36,8 @@
     }
     vc.imageOriginalFrameArray = frameArray;
     
+
+//    vc.preferredContentSize = CGSizeMake(200, 200);
     return vc;
 }
 
@@ -51,12 +55,12 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
     [self.view addSubview:self.collectionView];
-
+    
+// 旋转过程中，约束会报一大推错误
     UIView *collectionView = self.collectionView;
     collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[collectionView]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(collectionView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[collectionView]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(collectionView)]];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -68,6 +72,23 @@
     [super viewDidAppear:animated];
     [self.collectionView reloadData];
 }
+
+- (BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator{
+    [self.collectionView reloadData];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.collectionView reloadData];
+//        self.collectionView.frame = self.view.frame;
+
+    });
+}
+
+
+
+#pragma mark - XYPhotoBrowserCellDelegate
 
 
 #pragma mark - UICollectionViewDelegate
@@ -94,7 +115,7 @@
         imageUrl = self.imageUrlArray[indexPath.row];
     }
     [cell updateImageUrl:imageUrl image:image];
-    
+    cell.backgroundColor = indexPath.row == 1?[UIColor redColor]:[UIColor yellowColor];
     return cell;
 }
 
@@ -107,7 +128,7 @@
 }
 
 
-#pragma mark - getter
+#pragma mark - setter
 - (void)setCurrentImageIndex:(NSInteger)currentImageIndex{
     _currentImageIndex = currentImageIndex;
     if (currentImageIndex < [self.collectionView numberOfItemsInSection:0]) {
@@ -125,7 +146,7 @@
         layout.headerReferenceSize = CGSizeZero;
         layout.footerReferenceSize = CGSizeZero;
         layout.sectionInset = UIEdgeInsetsZero;
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor blackColor];
         [_collectionView registerClass:[XYPhotoBrowserCell class] forCellWithReuseIdentifier:@"XYPhotoBrowserCell"];
         _collectionView.backgroundColor = [UIColor blackColor];
@@ -139,7 +160,30 @@
 }
 
 
-- (BOOL)prefersStatusBarHidden{
-    return YES;
+- (NSArray<id<UIPreviewActionItem>> *)previewActionItems {
+    NSMutableArray *arrItem = [NSMutableArray array];
+    UIPreviewAction *saveImageAction = [UIPreviewAction actionWithTitle:@"保存图片" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        
+        if (self.currentImageIndex < [self.collectionView numberOfItemsInSection:0]) {
+            XYPhotoBrowserCell *cell = (XYPhotoBrowserCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentImageIndex inSection:0]];
+            UIImage *image = cell.image;
+            if (image) {
+                UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
+            }
+        }
+    }];
+    [arrItem addObjectsFromArray:@[saveImageAction]];
+    return arrItem;
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"图片保存失败" message:@"请检查相册授权设置是否打开" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:action];
+    [alert addAction:cancelAction];
+    [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 @end
