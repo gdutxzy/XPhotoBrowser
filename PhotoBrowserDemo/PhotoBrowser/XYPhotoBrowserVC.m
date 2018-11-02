@@ -7,31 +7,61 @@
 //
 
 #import "XYPhotoBrowserVC.h"
+#import "XYPhotoBrowserCell.h"
 
-@interface XYPhotoBrowserVC ()
-
+@interface XYPhotoBrowserVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@property (nonatomic,strong) UICollectionView *collectionView;
 @end
 
 @implementation XYPhotoBrowserVC
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        self.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor blackColor];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+
+
+#pragma mark - UICollectionViewDelegate
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return [UIScreen mainScreen].bounds.size;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
 }
-*/
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.imageViewArray.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    XYPhotoBrowserCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"XYPhotoBrowserCell" forIndexPath:indexPath];
+    
+    return cell;
+}
+
+#pragma mark - getter
+- (UICollectionView *)collectionView{
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.sectionInset = UIEdgeInsetsMake(0, 12, 0, 12);
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        [_collectionView registerClass:[XYPhotoBrowserCell class] forCellWithReuseIdentifier:@"XYPhotoBrowserCell"];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+    }
+    return _collectionView;
+}
 
 @end

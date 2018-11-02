@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface XYPhotoBrowserVC : UIViewController
+@property (nonatomic,strong,readonly) NSArray<UIImage*> *imageArray;
+@property (nonatomic,strong,readonly) NSArray<NSString*> *imageUrlArray;
+@property (nonatomic,strong,readonly) NSArray<__kindof UIView*> *imageViewArray;
 
 @end

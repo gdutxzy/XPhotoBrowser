@@ -8,8 +8,9 @@
 
 #import "ViewController.h"
 #import <UIImageView+WebCache.h>
+#import "XYPhotoBrowserVC.h"
 
-@interface ViewController ()
+@interface ViewController ()<UIViewControllerPreviewingDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView1;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView2;
 
@@ -35,6 +36,9 @@
     
     [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"]];
 
+    [self registerForPreviewingWithDelegate:self sourceView:self.imageView1];
+    [self registerForPreviewingWithDelegate:self sourceView:self.imageView2];
+
 }
 
 
@@ -43,5 +47,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
+    XYPhotoBrowserVC *vc = [[XYPhotoBrowserVC alloc] init];
+    
+ 
+    return vc;
+    
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    [self presentViewController:viewControllerToCommit animated:YES completion:^{
+        
+    }];
+}
 
 @end
