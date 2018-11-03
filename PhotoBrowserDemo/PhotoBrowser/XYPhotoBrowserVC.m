@@ -15,6 +15,7 @@
 @interface XYPhotoBrowserVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UIViewControllerTransitioningDelegate,XYPhotoBrowserCellDelegate>
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (nonatomic,strong) XYPhotoBrowserTransition *photoTransition;
+@property (nonatomic,strong) UIPageControl *pageControl;
 /// 锁定图片下标，防止旋转屏幕或3D-Touch导致的下标偏移
 @property (nonatomic,assign) BOOL lockIndex;
 @end
@@ -75,6 +76,14 @@
     collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[collectionView]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(collectionView)]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[collectionView]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(collectionView)]];
+    
+    UIPageControl *pageControl = self.pageControl;
+    pageControl.numberOfPages = self.imageViewArray.count;
+    pageControl.currentPage = self.currentImageIndex;
+    [self.view addSubview:pageControl];
+    pageControl.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[pageControl]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pageControl)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[pageControl]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pageControl)]];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -163,9 +172,10 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     if (!self.lockIndex && scrollView.contentOffset.x > 0 && scrollView.contentOffset.x < scrollView.contentSize.width) {
-        _currentImageIndex = floor(scrollView.contentOffset.x/CGRectGetWidth(scrollView.bounds));
+        _currentImageIndex = round(scrollView.contentOffset.x/CGRectGetWidth(scrollView.bounds));
         XYPhotoBrowserCell *cell = (XYPhotoBrowserCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentImageIndex inSection:0]];
         self->_currentShowImageView = cell.imageView;
+        self.pageControl.currentPage = _currentImageIndex;
     }
 }
 
@@ -213,6 +223,15 @@
         _photoTransition = [[XYPhotoBrowserTransition alloc] init];
     }
     return _photoTransition;
+}
+
+- (UIPageControl *)pageControl{
+    if (!_pageControl) {
+        _pageControl = [[UIPageControl alloc] init];
+        _pageControl.hidesForSinglePage = YES;
+        _pageControl.userInteractionEnabled = NO;
+    }
+    return _pageControl;
 }
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActionItems {
