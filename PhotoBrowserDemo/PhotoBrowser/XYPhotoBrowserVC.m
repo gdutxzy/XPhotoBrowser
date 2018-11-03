@@ -109,6 +109,7 @@
 
 #pragma mark - XYPhotoBrowserCellDelegate
 - (void)photoBrowserCellDidTap:(XYPhotoBrowserCell *)cell{
+    _currentShowImageView = cell.imageView;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
