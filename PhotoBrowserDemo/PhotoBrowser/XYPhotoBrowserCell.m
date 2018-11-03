@@ -114,6 +114,10 @@
 
 
 #pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+}
+
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.imageView;
@@ -139,7 +143,7 @@
     CGFloat maxHeight = CGRectGetHeight(self.bounds);
     CGSize size = CGSizeMake(maxWidth, maxHeight);
     CGSize imageSize = image.size;
-    if (image && !isnan(imageSize.width) && !isnan(imageSize.height)) {
+    if (image && !isnan(imageSize.width) && !isnan(imageSize.height) && imageSize.width>0 && imageSize.height > 0) {
         if (imageSize.height/imageSize.width > maxHeight/maxWidth) { // 高度长图，以高度为比例基准
             size = CGSizeMake(round(maxHeight*imageSize.width/imageSize.height), maxHeight);
         }else{ // 以宽度为比例基准

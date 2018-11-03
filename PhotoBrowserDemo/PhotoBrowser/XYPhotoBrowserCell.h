@@ -13,9 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 @class XYPhotoBrowserCell;
 
 @protocol XYPhotoBrowserCellDelegate <NSObject>
+@required
 /// 单击回调
 - (void)photoBrowserCellDidTap:(XYPhotoBrowserCell *)cell;
-
+/// 拖动回调
+- (void)photoBrowserCellDidPan:(UIPanGestureRecognizer *)pan cell:(XYPhotoBrowserCell *)cell;
 
 @end
 
