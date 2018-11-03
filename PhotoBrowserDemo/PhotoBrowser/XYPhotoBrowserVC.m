@@ -113,6 +113,20 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)photoBrowserCellDidPan:(UIPanGestureRecognizer *)pan cell:(XYPhotoBrowserCell *)cell{
+    if (pan.state == UIGestureRecognizerStateChanged || pan.state == UIGestureRecognizerStateBegan) {
+        self.collectionView.hidden = YES;
+
+    }else{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.collectionView.hidden = NO;
+
+        });
+
+    }
+    
+}
+
 #pragma mark - UICollectionViewDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return collectionView.bounds.size;

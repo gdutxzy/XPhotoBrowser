@@ -18,9 +18,11 @@
 @property (nonatomic,strong) UITapGestureRecognizer *doubleTap;
 @property (nonatomic,strong) UITapGestureRecognizer *singleTap;
 
+
 /// 缩放中
 @property (nonatomic,assign) BOOL doingZoom;
-
+/// 开始手势跟随退场动画
+@property (nonatomic,assign) BOOL dismiss;
 @end
 
 @implementation XYPhotoBrowserCell
@@ -95,27 +97,26 @@
 - (void)singleTapAction:(UITapGestureRecognizer *)recognizer
 {
     if ([self.delegate respondsToSelector:@selector(photoBrowserCellDidTap:)]) {
-        CGFloat imageW = self.imageView.width;
-        CGFloat imageH = self.imageView.height;
         [self.delegate photoBrowserCellDidTap:self];
     }
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(photoBrowserSubScrollViewDoSingleTapWithImageFrame:)])
-//    {
-//        CGFloat imageW = self.mainImageView.width;
-//        CGFloat imageH = self.mainImageView.height;
-//        //计算图片imageY需要考虑到图片此时的高
-//        CGFloat imageY = (imageH < KDECEIVE_HEIGHT) ? (KDECEIVE_HEIGHT - imageH) * 0.5 : 0.0;
-//        imageY = imageY - self.mainScrollView.contentOffset.y;
-//        //centerX需要考虑到offset
-//        CGFloat imageX = -self.mainScrollView.contentOffset.x;
-//        [self.delegate photoBrowserSubScrollViewDoSingleTapWithImageFrame:CGRectMake(imageX, imageY, imageW, imageH)];
-//    }
 }
 
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
+    UIPanGestureRecognizer *pan = scrollView.panGestureRecognizer;
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        self.dismiss = NO;
+    }
+    NSLog(@">>>>>>%@",@(pan.numberOfTouches));
+    if (!self.doingZoom && scrollView.contentOffset.y < 0) {
+        self.dismiss = YES;
+    }
+    if (self.dismiss) {
+        if ([self.delegate respondsToSelector:@selector(photoBrowserCellDidPan:cell:)]) {
+            [self.delegate photoBrowserCellDidPan:pan cell:self];
+        }
+    }
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -126,7 +127,7 @@
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
     self.imageView.center = [self centerOfScrollViewContent:scrollView];
-    self.doingZoom = NO;
+    self.doingZoom = YES;
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
@@ -134,6 +135,9 @@
     self.doingZoom = YES;
 }
 
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    self.doingZoom = NO;
+}
 
 #pragma mark - setter
 - (void)setImage:(UIImage * _Nonnull)image{
