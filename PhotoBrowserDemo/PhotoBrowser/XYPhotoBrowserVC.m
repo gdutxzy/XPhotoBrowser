@@ -21,7 +21,9 @@
 @end
 
 @implementation XYPhotoBrowserVC
-
+- (void)dealloc{
+    NSLog(@">>>>>>XYPhotoBrowserVC dealloc");
+}
 + (instancetype)photoBrowserWithImageURLs:(nullable NSArray<NSString*> *)imageUrlArray
                                    images:(nullable NSArray<UIImage*> *)imageArray
                                imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray

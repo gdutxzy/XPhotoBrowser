@@ -14,7 +14,7 @@
     UIImageView *_imageView;
 }
 @property (nonatomic,strong) UIScrollView *scrollView;
-
+@property (nonatomic,strong) UIActivityIndicatorView *loadingView;
 @property (nonatomic,strong) UITapGestureRecognizer *doubleTap;
 @property (nonatomic,strong) UITapGestureRecognizer *singleTap;
 
@@ -40,11 +40,16 @@
 - (void)setupView {
     [self addSubview:self.scrollView];
     [self.scrollView addSubview:self.imageView];
-
+    [self addSubview:self.loadingView];
+    
     UIView *scrollView = self.scrollView;
     scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(0)-[scrollView]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(scrollView)]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[scrollView]-(0)-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(scrollView)]];
+    
+    self.loadingView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.loadingView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.loadingView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
 }
 
 - (void)updateImageUrl:(NSString *)imageUrl image:(UIImage *)image{
@@ -55,9 +60,12 @@
     }
     [self setImage:image];
     if (imageUrl.length > 0) {
+        __weak typeof(self) weakSelf = self;
+        [self.loadingView startAnimating];
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:image completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            [weakSelf.loadingView stopAnimating];
             if (image) {
-                [self setImage:image];
+                [weakSelf setImage:image];
             }
         }];
     }
@@ -192,10 +200,16 @@
     return _scrollView;
 }
 
+- (UIActivityIndicatorView *)loadingView{
+    if (!_loadingView) {
+        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhiteLarge)];
+    }
+    return _loadingView;
+}
+
 
 - (UIImageView *)imageView
 {
-    
     if (!_imageView)
     {
         _imageView = [[UIImageView alloc] init];
