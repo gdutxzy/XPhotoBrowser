@@ -13,12 +13,16 @@
 @property (nonatomic,strong,readonly) NSArray<UIImage*> *imageArray;
 @property (nonatomic,strong,readonly) NSArray<NSString*> *imageUrlArray;
 @property (nonatomic,strong,readonly) NSArray<UIImageView*> *imageViewArray;
+//@property (nonatomic,strong,readonly) NSArray<NSValue*> *imageOriginalFrameArray;
+
 @property (nonatomic,assign) NSInteger currentImageIndex;
 /**
  是否隐藏原图。当拖动图片进入半透明背景的跟随状态时，是否隐藏原来的图片。默认隐藏，default is YES。
  */
 @property (nonatomic,assign) BOOL hiddenOrignView;
 
+/// 当前展示的图片
+@property (nonatomic,strong,readonly) UIImageView *currentShowImageView;
 
 /**
  生成图片浏览器

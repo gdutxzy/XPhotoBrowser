@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x.png" translatesAutoresizingMaskIntoConstraints="NO" id="gE0-zh-m88">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="x.png" translatesAutoresizingMaskIntoConstraints="NO" id="gE0-zh-m88">
                                 <rect key="frame" x="26" y="80" width="106" height="102"/>
                                 <gestureRecognizers/>
                                 <constraints>
@@ -28,7 +28,7 @@
                                     <outletCollection property="gestureRecognizers" destination="u7t-w2-AI2" appends="YES" id="eVC-Zk-XZg"/>
                                 </connections>
                             </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tip-cU-FtK">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tip-cU-FtK">
                                 <rect key="frame" x="26" y="214" width="106" height="100"/>
                                 <color key="backgroundColor" red="0.26582443859999999" green="1" blue="0.263732038" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <gestureRecognizers/>

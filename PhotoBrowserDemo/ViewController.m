@@ -19,6 +19,7 @@
 @implementation ViewController
 - (IBAction)imageViewTap:(UITapGestureRecognizer *)sender {
     UIImageView *imageView = (UIImageView *)sender.view;
+    
     NSArray *urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
     NSArray *imageArray = @[self.imageView1,self.imageView2];
     NSInteger index = [imageArray indexOfObject:imageView];

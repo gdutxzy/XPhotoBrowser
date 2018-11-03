@@ -8,13 +8,13 @@
 
 #import "XYPhotoBrowserVC.h"
 #import "XYPhotoBrowserCell.h"
+#import "XYPhotoBrowserTransition.h"
 #import <Photos/PHPhotoLibrary.h>
 
 
-@interface XYPhotoBrowserVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,XYPhotoBrowserCellDelegate>
+@interface XYPhotoBrowserVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UIViewControllerTransitioningDelegate,XYPhotoBrowserCellDelegate>
 @property (nonatomic,strong) UICollectionView *collectionView;
-@property (nonatomic,strong) NSArray<NSValue*> *imageOriginalFrameArray;
-
+@property (nonatomic,strong) XYPhotoBrowserTransition *photoTransition;
 /// 锁定图片下标，防止旋转屏幕或3D-Touch导致的下标偏移
 @property (nonatomic,assign) BOOL lockIndex;
 @end
@@ -25,19 +25,25 @@
                                    images:(nullable NSArray<UIImage*> *)imageArray
                                imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex{
+    
+    currentImageIndex = currentImageIndex < 0 ? 0 : (currentImageIndex < imageViewArray.count?currentImageIndex:imageViewArray.count-1);
+
     XYPhotoBrowserVC *vc = [[XYPhotoBrowserVC alloc] init];
     vc.modalPresentationStyle = UIModalPresentationOverCurrentContext; // 保留上一层viewcontroller
+    vc->_hiddenOrignView = YES;
     vc->_imageUrlArray = imageUrlArray;
     vc->_imageArray = imageArray;
     vc->_imageViewArray = imageViewArray;
     vc->_currentImageIndex = currentImageIndex;
     vc.lockIndex = NO;
-    NSMutableArray *frameArray = [NSMutableArray arrayWithCapacity:imageViewArray.count];
-    for (UIView *imageView in imageViewArray) {
-        CGRect rect = [imageView convertRect:imageView.frame toView:[UIApplication sharedApplication].delegate.window];
-        [frameArray addObject:[NSValue valueWithCGRect:rect]];
-    }
-    vc.imageOriginalFrameArray = frameArray;
+    vc.transitioningDelegate = vc;
+
+//    NSMutableArray *frameArray = [NSMutableArray arrayWithCapacity:imageViewArray.count];
+//    for (UIView *imageView in imageViewArray) {
+//        CGRect rect = [imageView.superview convertRect:imageView.frame toView:[UIApplication sharedApplication].delegate.window.rootViewController.view];
+//        [frameArray addObject:[NSValue valueWithCGRect:rect]];
+//    }
+//    vc->_imageOriginalFrameArray = frameArray;
     
     // 计算预览大小
     CGFloat maxWidth = CGRectGetWidth([UIScreen mainScreen].bounds)-30;
@@ -86,6 +92,8 @@
         [self setCurrentImageIndex:self.currentImageIndex];
     }
     self.lockIndex = CGRectGetHeight(self.view.bounds)<CGRectGetHeight([UIScreen mainScreen].bounds)-20;
+    XYPhotoBrowserCell *cell = (XYPhotoBrowserCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentImageIndex inSection:0]];
+    self->_currentShowImageView = cell.imageView;
 }
 
 - (BOOL)prefersStatusBarHidden{
@@ -101,7 +109,7 @@
 
 #pragma mark - XYPhotoBrowserCellDelegate
 - (void)photoBrowserCellDidTap:(XYPhotoBrowserCell *)cell{
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -127,10 +135,12 @@
     if (self.imageUrlArray.count > indexPath.row) {
         imageUrl = self.imageUrlArray[indexPath.row];
     }
+    if (!image) {
+        image = self.imageViewArray[indexPath.row].image;
+    }
     [cell updateImageUrl:imageUrl image:image];
     cell.delegate = self;
     
-    cell.backgroundColor = indexPath.row == 1?[UIColor redColor]:[UIColor yellowColor];
     return cell;
 }
 
@@ -139,10 +149,19 @@
     
     if (!self.lockIndex && scrollView.contentOffset.x > 0 && scrollView.contentOffset.x < scrollView.contentSize.width) {
         _currentImageIndex = floor(scrollView.contentOffset.x/CGRectGetWidth(scrollView.bounds));
+        XYPhotoBrowserCell *cell = (XYPhotoBrowserCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentImageIndex inSection:0]];
+        self->_currentShowImageView = cell.imageView;
     }
 }
 
+#pragma mark -- UIViewControllerTransitioningDelegate
 
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source{
+    return self.photoTransition;
+}
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed{
+    return self.photoTransition;
+}
 #pragma mark - setter
 - (void)setCurrentImageIndex:(NSInteger)currentImageIndex{
     _currentImageIndex = currentImageIndex;
@@ -174,6 +193,12 @@
     return _collectionView;
 }
 
+- (XYPhotoBrowserTransition *)photoTransition{
+    if (!_photoTransition) {
+        _photoTransition = [[XYPhotoBrowserTransition alloc] init];
+    }
+    return _photoTransition;
+}
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActionItems {
     NSMutableArray *arrItem = [NSMutableArray array];
@@ -201,4 +226,7 @@
     [alert addAction:cancelAction];
     [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
+
+
+
 @end

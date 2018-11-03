@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5407BB65218D8386005D6514 /* XYPhotoBrowserTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5407BB64218D8386005D6514 /* XYPhotoBrowserTransition.m */; };
 		54347955218C3C5900003BDE /* XYPhotoBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 54347954218C3C5900003BDE /* XYPhotoBrowserCell.m */; };
 		54347958218C599900003BDE /* UIView+XYExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 54347957218C599900003BDE /* UIView+XYExtension.m */; };
 		5459A85621493B16001154BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5459A85521493B16001154BE /* AppDelegate.m */; };
@@ -22,6 +23,8 @@
 
 /* Begin PBXFileReference section */
 		2E416F7A2F51647E132C9CE4 /* libPods-PhotoBrowserDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhotoBrowserDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5407BB63218D8386005D6514 /* XYPhotoBrowserTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYPhotoBrowserTransition.h; sourceTree = "<group>"; };
+		5407BB64218D8386005D6514 /* XYPhotoBrowserTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYPhotoBrowserTransition.m; sourceTree = "<group>"; };
 		54347953218C3C5900003BDE /* XYPhotoBrowserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYPhotoBrowserCell.h; sourceTree = "<group>"; };
 		54347954218C3C5900003BDE /* XYPhotoBrowserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYPhotoBrowserCell.m; sourceTree = "<group>"; };
 		54347956218C599900003BDE /* UIView+XYExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+XYExtension.h"; sourceTree = "<group>"; };
@@ -115,6 +118,8 @@
 				5459A86C21493C44001154BE /* XYPhotoBrowserVC.m */,
 				54347953218C3C5900003BDE /* XYPhotoBrowserCell.h */,
 				54347954218C3C5900003BDE /* XYPhotoBrowserCell.m */,
+				5407BB63218D8386005D6514 /* XYPhotoBrowserTransition.h */,
+				5407BB64218D8386005D6514 /* XYPhotoBrowserTransition.m */,
 				54347956218C599900003BDE /* UIView+XYExtension.h */,
 				54347957218C599900003BDE /* UIView+XYExtension.m */,
 			);
@@ -219,6 +224,7 @@
 				5459A86D21493C44001154BE /* XYPhotoBrowserVC.m in Sources */,
 				5459A86421493B17001154BE /* main.m in Sources */,
 				54347958218C599900003BDE /* UIView+XYExtension.m in Sources */,
+				5407BB65218D8386005D6514 /* XYPhotoBrowserTransition.m in Sources */,
 				5459A85621493B16001154BE /* AppDelegate.m in Sources */,
 				54347955218C3C5900003BDE /* XYPhotoBrowserCell.m in Sources */,
 			);

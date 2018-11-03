@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 单击回调
 - (void)photoBrowserCellDidTap:(XYPhotoBrowserCell *)cell;
 
+
 @end
 
 
@@ -23,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface XYPhotoBrowserCell : UICollectionViewCell
 @property (nonatomic,strong,readonly) UIImage *image;
 @property (nonatomic,strong,readonly) NSString *imageUrl;
+@property (nonatomic,strong,readonly) UIImageView *imageView;
+
 @property (nonatomic,weak) id<XYPhotoBrowserCellDelegate> delegate;
 
 - (void)updateImageUrl:(NSString *)imageUrl image:(UIImage *)image;

@@ -55,6 +55,9 @@ NS_ASSUME_NONNULL_BEGIN
  * 控件 大小
  */
 @property (nonatomic, assign) CGSize size;
+
+/// 生成图片
++ (UIImage *)imageWithColor:(UIColor *)color;
 @end
 
 NS_ASSUME_NONNULL_END

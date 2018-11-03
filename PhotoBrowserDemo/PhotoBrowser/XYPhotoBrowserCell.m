@@ -10,9 +10,10 @@
 #import "UIView+XYExtension.h"
 #import <UIImageView+WebCache.h>
 
-@interface XYPhotoBrowserCell ()<UIScrollViewDelegate>
+@interface XYPhotoBrowserCell ()<UIScrollViewDelegate>{
+    UIImageView *_imageView;
+}
 @property (nonatomic,strong) UIScrollView *scrollView;
-@property (nonatomic,strong) UIImageView *imageView;
 
 @property (nonatomic,strong) UITapGestureRecognizer *doubleTap;
 @property (nonatomic,strong) UITapGestureRecognizer *singleTap;
@@ -48,7 +49,7 @@
     _imageUrl = imageUrl;
 
     if (!image) {
-        image = [self imageWithColor:[UIColor colorWithWhite:0.8 alpha:1]];
+        image = [UIView imageWithColor:[UIColor colorWithWhite:0.8 alpha:1]];
     }
     [self setImage:image];
     if (imageUrl.length > 0) {
@@ -75,17 +76,6 @@
     return actualCenter;
 }
 
-- (UIImage *)imageWithColor:(UIColor *)color {
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
 
 
 #pragma mark - Action
@@ -105,6 +95,8 @@
 - (void)singleTapAction:(UITapGestureRecognizer *)recognizer
 {
     if ([self.delegate respondsToSelector:@selector(photoBrowserCellDidTap:)]) {
+        CGFloat imageW = self.imageView.width;
+        CGFloat imageH = self.imageView.height;
         [self.delegate photoBrowserCellDidTap:self];
     }
 //    if (self.delegate && [self.delegate respondsToSelector:@selector(photoBrowserSubScrollViewDoSingleTapWithImageFrame:)])
@@ -195,6 +187,7 @@
 
 - (UIImageView *)imageView
 {
+    
     if (!_imageView)
     {
         _imageView = [[UIImageView alloc] init];
