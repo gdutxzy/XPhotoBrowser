@@ -82,7 +82,9 @@
 }
 
 - (void)viewDidLayoutSubviews{
-    [self setCurrentImageIndex:self.currentImageIndex];
+    if (self.lockIndex) { // 旋转屏或3D-Touch进来时，会有画面偏差
+        [self setCurrentImageIndex:self.currentImageIndex];
+    }
     self.lockIndex = CGRectGetHeight(self.view.bounds)<CGRectGetHeight([UIScreen mainScreen].bounds)-20;
 }
 
