@@ -14,13 +14,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView1;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView2;
 
+@property (strong,nonatomic) NSArray<NSString *> *urlArray;
 @end
 
 @implementation ViewController
 - (IBAction)imageViewTap:(UITapGestureRecognizer *)sender {
     UIImageView *imageView = (UIImageView *)sender.view;
     
-    NSArray *urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
+    NSArray *urlArray = self.urlArray;
     NSArray *imageArray = @[self.imageView1,self.imageView2];
     NSInteger index = [imageArray indexOfObject:imageView];
     index = index == NSNotFound ? 0:index;
@@ -33,6 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
+    
     NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
     if (userAgent) {
         if (![userAgent canBeConvertedToEncoding:NSASCIIStringEncoding]) {
@@ -44,8 +47,8 @@
         [[SDWebImageDownloader sharedDownloader] setValue:userAgent forHTTPHeaderField:@"User-Agent"];
     }
     
-    [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"]];
-    [self.imageView1 sd_setImageWithURL:[NSURL URLWithString:@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg"]];
+    [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:self.urlArray[1]]];
+    [self.imageView1 sd_setImageWithURL:[NSURL URLWithString:self.urlArray[0]]];
 
     [self registerForPreviewingWithDelegate:self sourceView:self.imageView1];
     [self registerForPreviewingWithDelegate:self sourceView:self.imageView2];
@@ -59,7 +62,7 @@
 }
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
-    NSArray *urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
+    NSArray *urlArray = self.urlArray;
     NSArray *imageArray = @[self.imageView1,self.imageView2];
     NSInteger index = [imageArray indexOfObject:previewingContext.sourceView];
     index = index == NSNotFound ? 0:index;
@@ -79,5 +82,6 @@
 - (BOOL)prefersStatusBarHidden{
     return YES;
 }
+
 
 @end
