@@ -103,6 +103,7 @@
         [self setCurrentImageIndex:self.currentImageIndex];
     }
     self.lockIndex = CGRectGetHeight(self.view.bounds)<CGRectGetHeight([UIScreen mainScreen].bounds)-20;
+    self.pageControl.hidden = self.lockIndex;
     XYPhotoBrowserCell *cell = (XYPhotoBrowserCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentImageIndex inSection:0]];
     self->_currentShowImageView = cell.imageView;
 }
