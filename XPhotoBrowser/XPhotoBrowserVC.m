@@ -78,6 +78,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissTap:)];
+    [self.view addGestureRecognizer:tap];
+    
     [self.view addSubview:self.collectionView];
     
     UIView *collectionView = self.collectionView;
@@ -123,7 +126,12 @@
     self.lockIndex = YES;
 }
 
-
+#pragma mark - Action
+- (void)dismissTap:(UITapGestureRecognizer*)tap{
+    // 防止出现某些意外，而使图片浏览器无法退出
+    _currentShowImageView = self.tempImageView ? self.tempImageView : _currentShowImageView;
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - XPhotoBrowserCellDelegate
 - (void)photoBrowserCellDidTap:(XPhotoBrowserCell *)cell{
@@ -201,7 +209,6 @@
     }
     
 }
-
 
 #pragma mark - UICollectionViewDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{

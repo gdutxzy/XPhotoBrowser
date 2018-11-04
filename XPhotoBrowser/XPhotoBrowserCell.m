@@ -18,7 +18,8 @@
 @property (nonatomic,strong) UITapGestureRecognizer *doubleTap;
 @property (nonatomic,strong) UITapGestureRecognizer *singleTap;
 
-
+/// 正在进行缩放
+@property (nonatomic,assign) BOOL zooming;
 /// 开始手势跟随退场动画
 @property (nonatomic,assign) BOOL dismissPan;
 /// 退场拖动手势开始时，scrollView的x偏移量
@@ -34,6 +35,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.dismissPan = NO;
+        self.zooming = NO;
         [self setupView];
         [self addGestureRecognizer:self.doubleTap];
         [self addGestureRecognizer:self.singleTap];
@@ -113,7 +115,7 @@
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     UIPanGestureRecognizer *pan = scrollView.panGestureRecognizer;
-    if (scrollView.contentOffset.y < 0 && pan.numberOfTouches == 1) {
+    if (!self.zooming && scrollView.contentOffset.y < 0 && pan.numberOfTouches == 1) {
         self.dismissPan = YES;
         self.offsetX = scrollView.contentOffset.x;
         self.zoomScale = scrollView.zoomScale;
@@ -138,13 +140,16 @@
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView{
+    self.zooming = YES;
     self.imageView.center = [self centerOfScrollViewContent:scrollView];
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view{
+    self.zooming = YES;
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    self.zooming = NO;
 }
 
 
