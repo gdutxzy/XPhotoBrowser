@@ -124,12 +124,11 @@
         }
         [self.delegate photoBrowserCellDidPan:self pan:pan];
     }
-//    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed) {
-//        self.dismissPan = NO;
-//    }
 }
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     if (self.dismissPan) {
+        self.dismissPan = NO;
         [self.delegate photoBrowserCellDidPan:self pan:nil];
     }
 }
@@ -150,9 +149,13 @@
 
 
 - (void)restoreScrollViewStatus{
-    [self.scrollView setZoomScale:self.zoomScale animated:NO];
     self.imageView.center = [self centerOfScrollViewContent:_scrollView];
-    [self.scrollView setContentOffset:CGPointMake(self.offsetX, 0) animated:NO];
+    CGFloat x = self.offsetX>0?self.offsetX:0;
+    CGFloat width = self.scrollView.contentSize.width < self.scrollView.width ? self.scrollView.width : self.scrollView.contentSize.width;
+    if (x > width - self.scrollView.width ) {
+        x = width - self.scrollView.width;
+    }
+    [self.scrollView setContentOffset:CGPointMake(x, 0) animated:NO];
 }
 
 #pragma mark - setter

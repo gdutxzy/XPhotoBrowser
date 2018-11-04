@@ -167,14 +167,21 @@
                 [self dismissViewControllerAnimated:NO completion:nil];
             }];
         }else{
-            if (_currentShowImageView != self.tempImageView && cell.delegate) {
-                self.collectionView.hidden = NO;
-                [self.tempImageView removeFromSuperview];
-                self.tempImageView = nil;
+            if (_currentShowImageView != self.tempImageView && cell.delegate && !pan) {
+                [UIView animateWithDuration:0.3 delay:0.0 options:(UIViewAnimationOptionCurveEaseInOut) animations:^{
+                    if (self.tempImageView.x > 0 || self.tempImageView.y > 0 || self.tempImageView.bottom < self.view.height || self.tempImageView.right < self.view.width) {
+                        [cell restoreScrollViewStatus];
+                        CGRect rect = [cell.imageView.superview convertRect:cell.imageView.frame toView:self.view];
+                        self.tempImageView.frame = rect;
+                    }
+                    self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+                } completion:^(BOOL finished) {
+                    self.collectionView.hidden = NO;
+                    [self.tempImageView removeFromSuperview];
+                    self.tempImageView = nil;
+                }];
             }
-
         }
-        
     }else {
         CGPoint location = [pan locationInView:self.view];
         CGPoint translation = [pan translationInView:self.view];

@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,weak) id<XYPhotoBrowserCellDelegate> delegate;
 
 - (void)updateImageUrl:(NSString *)imageUrl image:(UIImage *)image;
+
+- (void)restoreScrollViewStatus;
 @end
 
 NS_ASSUME_NONNULL_END
