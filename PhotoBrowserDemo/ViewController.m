@@ -22,11 +22,11 @@
     UIImageView *imageView = (UIImageView *)sender.view;
     
     NSArray *urlArray = self.urlArray;
-    NSArray *imageArray = @[self.imageView1,self.imageView2];
-    NSInteger index = [imageArray indexOfObject:imageView];
+    NSArray *imageViewArray = @[self.imageView1,self.imageView2];
+    NSInteger index = [imageViewArray indexOfObject:imageView];
     index = index == NSNotFound ? 0:index;
     
-    XYPhotoBrowserVC *vc = [XYPhotoBrowserVC photoBrowserWithImageURLs:urlArray images:nil imageViews:imageArray currentIndex:index];
+    XYPhotoBrowserVC *vc = [XYPhotoBrowserVC photoBrowserWithImageURLs:urlArray images:nil imageViews:imageViewArray currentIndex:index];
     [self presentViewController:vc animated:YES completion:^{
         
     }];
@@ -63,11 +63,11 @@
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
     NSArray *urlArray = self.urlArray;
-    NSArray *imageArray = @[self.imageView1,self.imageView2];
-    NSInteger index = [imageArray indexOfObject:previewingContext.sourceView];
+    NSArray *imageViewArray = @[self.imageView1,self.imageView2];
+    NSInteger index = [imageViewArray indexOfObject:previewingContext.sourceView];
     index = index == NSNotFound ? 0:index;
 
-    XYPhotoBrowserVC *vc = [XYPhotoBrowserVC photoBrowserWithImageURLs:urlArray images:nil imageViews:imageArray currentIndex:index];
+    XYPhotoBrowserVC *vc = [XYPhotoBrowserVC photoBrowserWithImageURLs:urlArray images:nil imageViews:imageViewArray currentIndex:index];
     
 
     return vc;
