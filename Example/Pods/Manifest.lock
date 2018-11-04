@@ -1,0 +1,25 @@
+PODS:
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
+  - XYPhotoBrowser (1.0.0):
+    - SDWebImage
+
+DEPENDENCIES:
+  - XYPhotoBrowser (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SDWebImage
+
+EXTERNAL SOURCES:
+  XYPhotoBrowser:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
+  XYPhotoBrowser: b6c5fcab8052eea94a2b0fe991a15657e1367623
+
+PODFILE CHECKSUM: aa689a9affd9230aa27b5fd3bf75709d5a05506d
+
+COCOAPODS: 1.5.3

@@ -1,0 +1,6 @@
+framework module XYPhotoBrowser {
+  umbrella header "XYPhotoBrowser-umbrella.h"
+
+  export *
+  module * { export * }
+}
