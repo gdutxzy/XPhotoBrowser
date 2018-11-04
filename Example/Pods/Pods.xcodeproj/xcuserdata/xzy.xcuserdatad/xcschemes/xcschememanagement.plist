@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Pods-XYPhotoBrowser_Example.xcscheme</key>
+		<key>Pods-XPhotoBrowser_Example.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-XYPhotoBrowser_Tests.xcscheme</key>
+		<key>Pods-XPhotoBrowser_Tests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -19,7 +19,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>XYPhotoBrowser.xcscheme</key>
+		<key>XPhotoBrowser.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

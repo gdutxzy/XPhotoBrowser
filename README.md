@@ -1,9 +1,9 @@
-# XYPhotoBrowser
+# XPhotoBrowser
 
-[![CI Status](https://img.shields.io/travis/gdutxzy/XYPhotoBrowser.svg?style=flat)](https://travis-ci.org/gdutxzy/XYPhotoBrowser)
-[![Version](https://img.shields.io/cocoapods/v/XYPhotoBrowser.svg?style=flat)](https://cocoapods.org/pods/XYPhotoBrowser)
-[![License](https://img.shields.io/cocoapods/l/XYPhotoBrowser.svg?style=flat)](https://cocoapods.org/pods/XYPhotoBrowser)
-[![Platform](https://img.shields.io/cocoapods/p/XYPhotoBrowser.svg?style=flat)](https://cocoapods.org/pods/XYPhotoBrowser)
+[![CI Status](https://img.shields.io/travis/gdutxzy/XPhotoBrowser.svg?style=flat)](https://travis-ci.org/gdutxzy/XPhotoBrowser)
+[![Version](https://img.shields.io/cocoapods/v/XPhotoBrowser.svg?style=flat)](https://cocoapods.org/pods/XPhotoBrowser)
+[![License](https://img.shields.io/cocoapods/l/XPhotoBrowser.svg?style=flat)](https://cocoapods.org/pods/XPhotoBrowser)
+[![Platform](https://img.shields.io/cocoapods/p/XPhotoBrowser.svg?style=flat)](https://cocoapods.org/pods/XPhotoBrowser)
 
 
 
@@ -22,11 +22,11 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-XYPhotoBrowser is available through [CocoaPods](https://cocoapods.org). To install
+XPhotoBrowser is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'XYPhotoBrowser'
+pod 'XPhotoBrowser'
 ```
 
 ## Author
@@ -35,4 +35,4 @@ gdutxzy, gdutxzy@163.com
 
 ## License
 
-XYPhotoBrowser is available under the MIT license. See the LICENSE file for more info.
+XPhotoBrowser is available under the MIT license. See the LICENSE file for more info.

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="wQg-tq-qST">
+            <objects>
+                <viewController id="whP-gf-Uak" customClass="XViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uEw-UM-LJ8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mvr-aV-6Um"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Gha-Z5-iPF">
+                                <rect key="frame" x="47" y="103" width="100" height="100"/>
+                                <color key="backgroundColor" red="1" green="0.37336955309999997" blue="0.24024742760000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="gBe-LW-crL"/>
+                                    <constraint firstAttribute="height" constant="100" id="tqG-Cg-kvL"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="IlQ-O1-evh" appends="YES" id="YIc-8S-m94"/>
+                                </connections>
+                            </imageView>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bUd-uL-w8y">
+                                <rect key="frame" x="47" y="235" width="100" height="100"/>
+                                <color key="backgroundColor" red="0.26582443859999999" green="1" blue="0.263732038" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="Z9E-yi-f3a"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="xVL-Xt-RA7" appends="YES" id="edf-kg-fMJ"/>
+                                </connections>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Gha-Z5-iPF" firstAttribute="leading" secondItem="bUd-uL-w8y" secondAttribute="leading" id="13S-No-cN1"/>
+                            <constraint firstItem="Gha-Z5-iPF" firstAttribute="trailing" secondItem="bUd-uL-w8y" secondAttribute="trailing" id="eIo-Zy-Csy"/>
+                            <constraint firstItem="bUd-uL-w8y" firstAttribute="top" secondItem="Gha-Z5-iPF" secondAttribute="bottom" constant="32" id="ezl-0t-d23"/>
+                            <constraint firstItem="Gha-Z5-iPF" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leadingMargin" constant="31" id="lj0-eV-kHP"/>
+                            <constraint firstItem="Gha-Z5-iPF" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="83" id="nro-Qj-nJ6"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView1" destination="Gha-Z5-iPF" id="ieF-gL-c1P"/>
+                        <outlet property="imageView2" destination="bUd-uL-w8y" id="KqK-0y-rcL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="IlQ-O1-evh">
+                    <connections>
+                        <action selector="imageViewTap:" destination="whP-gf-Uak" id="0dy-EL-8En"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="xVL-Xt-RA7">
+                    <connections>
+                        <action selector="imageViewTap:" destination="whP-gf-Uak" id="iqT-LH-am7"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="305" y="433"/>
+        </scene>
+    </scenes>
+</document>

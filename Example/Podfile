@@ -1,8 +1,9 @@
 use_frameworks!
 
-target 'XYPhotoBrowser_Example' do
-  pod 'XYPhotoBrowser', :path => '../'
-  target 'XYPhotoBrowser_Tests' do
+target 'XPhotoBrowser_Example' do
+  pod 'XPhotoBrowser', :path => '../'
+
+  target 'XPhotoBrowser_Tests' do
     inherit! :search_paths
 
     

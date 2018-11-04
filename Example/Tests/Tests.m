@@ -1,8 +1,8 @@
 //
-//  XYPhotoBrowserTests.m
-//  XYPhotoBrowserTests
+//  XPhotoBrowserTests.m
+//  XPhotoBrowserTests
 //
-//  Created by gdutxzy on 11/04/2018.
+//  Created by gdutxzy on 11/05/2018.
 //  Copyright (c) 2018 gdutxzy. All rights reserved.
 //
 
