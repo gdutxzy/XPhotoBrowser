@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
   #   'XPhotoBrowser' => ['XPhotoBrowser/Assets/*.png']
   # }
 
-  s.public_header_files = 'Pod/**/*.h'
+  # s.public_header_files = 'Pod/**/*.h'
   s.frameworks = 'UIKit'
   s.dependency 'SDWebImage'
 end
