@@ -1,6 +1,0 @@
-framework module Pods_XYPhotoBrowser_Example {
-  umbrella header "Pods-XYPhotoBrowser_Example-umbrella.h"
-
-  export *
-  module * { export * }
-}
