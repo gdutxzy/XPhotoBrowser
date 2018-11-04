@@ -13,7 +13,6 @@
 @property (nonatomic,strong,readonly) NSArray<UIImage*> *imageArray;
 @property (nonatomic,strong,readonly) NSArray<NSString*> *imageUrlArray;
 @property (nonatomic,strong,readonly) NSArray<UIImageView*> *imageViewArray;
-//@property (nonatomic,strong,readonly) NSArray<NSValue*> *imageOriginalFrameArray;
 
 @property (nonatomic,assign) NSInteger currentImageIndex;
 /**

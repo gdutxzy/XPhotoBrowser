@@ -19,10 +19,13 @@
 @property (nonatomic,strong) UITapGestureRecognizer *singleTap;
 
 
-/// 缩放中
-@property (nonatomic,assign) BOOL doingZoom;
 /// 开始手势跟随退场动画
-@property (nonatomic,assign) BOOL dismiss;
+@property (nonatomic,assign) BOOL dismissPan;
+/// 退场拖动手势开始时，scrollView的x偏移量
+@property (nonatomic,assign) CGFloat offsetX;
+/// 退场拖动手势开始时，scrollView的放大倍数
+@property (nonatomic,assign) CGFloat zoomScale;
+
 @end
 
 @implementation XYPhotoBrowserCell
@@ -30,6 +33,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        self.dismissPan = NO;
         [self setupView];
         [self addGestureRecognizer:self.doubleTap];
         [self addGestureRecognizer:self.singleTap];
@@ -89,8 +93,7 @@
 
 
 #pragma mark - Action
-- (void)doubleTapAction:(UITapGestureRecognizer *)recognizer
-{
+- (void)doubleTapAction:(UITapGestureRecognizer *)recognizer {
     CGPoint touchPoint = [recognizer locationInView:self.imageView];
     if (self.scrollView.zoomScale <= 1.0){
         CGFloat scaleX = touchPoint.x + self.scrollView.contentOffset.x;//需要放大的图片的X点
@@ -102,49 +105,54 @@
 }
 
 
-- (void)singleTapAction:(UITapGestureRecognizer *)recognizer
-{
-    if ([self.delegate respondsToSelector:@selector(photoBrowserCellDidTap:)]) {
-        [self.delegate photoBrowserCellDidTap:self];
-    }
+- (void)singleTapAction:(UITapGestureRecognizer *)recognizer {
+    [self.delegate photoBrowserCellDidTap:self];
 }
 
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     UIPanGestureRecognizer *pan = scrollView.panGestureRecognizer;
-    if (pan.state == UIGestureRecognizerStateBegan) {
-        self.dismiss = NO;
+    if (scrollView.contentOffset.y < 0 && pan.numberOfTouches == 1) {
+        self.dismissPan = YES;
+        self.offsetX = scrollView.contentOffset.x;
+        self.zoomScale = scrollView.zoomScale;
     }
-    NSLog(@">>>>>>%@",@(pan.numberOfTouches));
-    if (!self.doingZoom && scrollView.contentOffset.y < 0) {
-        self.dismiss = YES;
-    }
-    if (self.dismiss) {
-        if ([self.delegate respondsToSelector:@selector(photoBrowserCellDidPan:cell:)]) {
-            [self.delegate photoBrowserCellDidPan:pan cell:self];
+    if (self.dismissPan) {
+        if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed) {
+            self.dismissPan = NO;
         }
+        [self.delegate photoBrowserCellDidPan:self pan:pan];
+    }
+//    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed) {
+//        self.dismissPan = NO;
+//    }
+}
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (self.dismissPan) {
+        [self.delegate photoBrowserCellDidPan:self pan:nil];
     }
 }
 
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return self.imageView;
 }
 
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView{
     self.imageView.center = [self centerOfScrollViewContent:scrollView];
-    self.doingZoom = YES;
 }
 
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
-{
-    self.doingZoom = YES;
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view{
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
-    self.doingZoom = NO;
+}
+
+
+- (void)restoreScrollViewStatus{
+    [self.scrollView setZoomScale:self.zoomScale animated:NO];
+    self.imageView.center = [self centerOfScrollViewContent:_scrollView];
+    [self.scrollView setContentOffset:CGPointMake(self.offsetX, 0) animated:NO];
 }
 
 #pragma mark - setter
@@ -174,8 +182,7 @@
 
 
 #pragma mark - getter
-- (UIScrollView *)scrollView
-{
+- (UIScrollView *)scrollView {
     if (!_scrollView)
     {
         _scrollView = [[UIScrollView alloc] init];
@@ -200,7 +207,7 @@
     return _scrollView;
 }
 
-- (UIActivityIndicatorView *)loadingView{
+- (UIActivityIndicatorView *)loadingView {
     if (!_loadingView) {
         _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhiteLarge)];
     }
@@ -208,8 +215,7 @@
 }
 
 
-- (UIImageView *)imageView
-{
+- (UIImageView *)imageView {
     if (!_imageView)
     {
         _imageView = [[UIImageView alloc] init];
@@ -221,8 +227,7 @@
 }
 
 
-- (UITapGestureRecognizer *)doubleTap
-{
+- (UITapGestureRecognizer *)doubleTap {
     if (!_doubleTap)
     {
         _doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapAction:)];
@@ -232,8 +237,7 @@
     return _doubleTap;
 }
 
-- (UITapGestureRecognizer *)singleTap
-{
+- (UITapGestureRecognizer *)singleTap {
     if (!_singleTap)
     {
         _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapAction:)];
@@ -242,5 +246,24 @@
         [_singleTap requireGestureRecognizerToFail:self.doubleTap];
     }
     return _singleTap;
+}
+
+
+- (UIView *)photoVCView{
+    UIView * vcView = nil;
+    UIView * superView = self.superview;
+    NSInteger i = 0;
+    while (!vcView || i < 6) {
+        if ([superView.nextResponder isKindOfClass:NSClassFromString(@"XYPhotoBrowserVC")]) {
+            vcView = superView;
+            break;
+        }
+        superView = superView.superview;
+        if (!superView) {
+            break;
+        }
+        i++;
+    }
+    return vcView;
 }
 @end

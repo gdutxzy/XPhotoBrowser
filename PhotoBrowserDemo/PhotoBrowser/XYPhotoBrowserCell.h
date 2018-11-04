@@ -16,8 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 /// 单击回调
 - (void)photoBrowserCellDidTap:(XYPhotoBrowserCell *)cell;
-/// 拖动回调,用于控制背景透明度
-- (void)photoBrowserCellDidPanProportion:(CGFloat)proportion;
+/// 拖动回调
+- (void)photoBrowserCellDidPan:(XYPhotoBrowserCell *)cell pan:(nullable UIPanGestureRecognizer *)pan;
 
 @end
 

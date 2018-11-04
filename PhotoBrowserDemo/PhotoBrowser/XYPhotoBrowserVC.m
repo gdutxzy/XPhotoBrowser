@@ -10,7 +10,7 @@
 #import "XYPhotoBrowserCell.h"
 #import "XYPhotoBrowserTransition.h"
 #import <Photos/PHPhotoLibrary.h>
-
+#import "UIView+XYExtension.h"
 
 @interface XYPhotoBrowserVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UIViewControllerTransitioningDelegate,XYPhotoBrowserCellDelegate>
 @property (nonatomic,strong) UICollectionView *collectionView;
@@ -18,6 +18,19 @@
 @property (nonatomic,strong) UIPageControl *pageControl;
 /// 锁定图片下标，防止旋转屏幕或3D-Touch导致的下标偏移
 @property (nonatomic,assign) BOOL lockIndex;
+/// 跟随手势运动的图片
+@property (nonatomic,strong) UIImageView *tempImageView;
+/// 跟随手势运动图片的初始Frame
+@property (nonatomic,assign) CGRect tempOriginalFrame;
+/// 跟随手势运动图片的最小倍数
+@property (nonatomic,assign) CGFloat minScale;
+/// 图片Y位移达到多少时，背景全透明，图片达到允许的最小值
+@property (nonatomic,assign) CGFloat maxYOffset;
+/// 跟随手势运动的图片与手指位置的初始X距离
+@property (nonatomic,assign) CGFloat xDistance;
+/// 跟随手势运动的图片与手指位置的初始Y距离
+@property (nonatomic,assign) CGFloat yDistance;
+
 @end
 
 @implementation XYPhotoBrowserVC
@@ -40,13 +53,6 @@
     vc->_currentImageIndex = currentImageIndex;
     vc.lockIndex = NO;
     vc.transitioningDelegate = vc;
-
-//    NSMutableArray *frameArray = [NSMutableArray arrayWithCapacity:imageViewArray.count];
-//    for (UIView *imageView in imageViewArray) {
-//        CGRect rect = [imageView.superview convertRect:imageView.frame toView:[UIApplication sharedApplication].delegate.window.rootViewController.view];
-//        [frameArray addObject:[NSValue valueWithCGRect:rect]];
-//    }
-//    vc->_imageOriginalFrameArray = frameArray;
     
     // 计算预览大小
     CGFloat maxWidth = CGRectGetWidth([UIScreen mainScreen].bounds)-30;
@@ -103,7 +109,7 @@
         [self setCurrentImageIndex:self.currentImageIndex];
     }
     self.lockIndex = CGRectGetHeight(self.view.bounds)<CGRectGetHeight([UIScreen mainScreen].bounds)-20;
-    self.pageControl.hidden = self.lockIndex;
+    self.pageControl.hidden = self.lockIndex || self.tempImageView;
     XYPhotoBrowserCell *cell = (XYPhotoBrowserCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.currentImageIndex inSection:0]];
     self->_currentShowImageView = cell.imageView;
 }
@@ -125,11 +131,65 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)photoBrowserCellDidPanProportion:(CGFloat)proportion {
-    self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:(1-proportion)];
-    self.pageControl.hidden = proportion > 0;
-    self.collectionView.hidden = proportion > 0;
+- (void)photoBrowserCellDidPan:(XYPhotoBrowserCell *)cell pan:(UIPanGestureRecognizer *)pan {
+    if (!_tempImageView) {
+        _tempImageView = [[UIImageView alloc] init];
+        _tempImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _tempImageView.backgroundColor = [UIColor clearColor];
+        _tempImageView.layer.masksToBounds = YES;
+        _tempImageView.image = cell.imageView.image;
+        _tempImageView.frame = [cell.imageView.superview convertRect:cell.imageView.frame toView:self.view];
+        [self.view addSubview:_tempImageView];
+        self.collectionView.hidden = YES;
+        
+        for (UIImageView *view in self.imageViewArray) {
+            view.hidden = NO;
+        }
+        self.imageViewArray[self.currentImageIndex].hidden = YES;
+
+        _tempOriginalFrame = _tempImageView.frame;
+        _minScale = self.imageViewArray[self.currentImageIndex].frame.size.width/_tempOriginalFrame.size.width;
+        _minScale = isnan(_minScale)?0.1:_minScale;
+        _maxYOffset = round(CGRectGetHeight(self.view.frame)*0.38);
+        CGPoint point = [pan locationInView:self.view];
+        _xDistance = CGRectGetMidX(_tempOriginalFrame)-point.x;
+        _yDistance = CGRectGetMidY(_tempOriginalFrame)-point.y;
+    }
+    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed || pan.state == UIGestureRecognizerStatePossible || !pan) {
+        if (self.tempImageView.y > CGRectGetHeight(self.view.frame)*0.5) {
+            _currentShowImageView = self.tempImageView;
+            cell.delegate = nil;
+            [UIView animateWithDuration:0.3 animations:^{
+                self.tempImageView.frame = self.imageViewArray[self.currentImageIndex].frame;
+                self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+            }completion:^(BOOL finished) {
+                self.imageViewArray[self.currentImageIndex].hidden = NO;
+                [self dismissViewControllerAnimated:NO completion:nil];
+            }];
+        }else{
+            if (_currentShowImageView != self.tempImageView && cell.delegate) {
+                self.collectionView.hidden = NO;
+                [self.tempImageView removeFromSuperview];
+                self.tempImageView = nil;
+            }
+
+        }
+        
+    }else {
+        CGPoint location = [pan locationInView:self.view];
+        CGPoint translation = [pan translationInView:self.view];
+        CGFloat proportion = translation.y/self.maxYOffset;
+        proportion = proportion > 1.0 ? 1.0 : (proportion < 0 ? 0 : proportion);
+        self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:(1-proportion)];
+        CGFloat scale = 1-(1-self.minScale)*proportion;
+        self.tempImageView.width = round(CGRectGetWidth(self.tempOriginalFrame)*scale);
+        self.tempImageView.height = round(CGRectGetHeight(self.tempOriginalFrame)*scale);
+        self.tempImageView.centerX = _xDistance*scale+location.x;
+        self.tempImageView.centerY = _yDistance*scale+location.y;
+    }
+    
 }
+
 
 #pragma mark - UICollectionViewDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
