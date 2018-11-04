@@ -31,7 +31,7 @@ pod 'XYPhotoBrowser'
 
 ## Author
 
-gdutxzy, xiezongyuan@xhg.com
+gdutxzy, gdutxzy@163.com
 
 ## License
 
