@@ -148,8 +148,13 @@
         self.imageViewArray[self.currentImageIndex].hidden = YES;
 
         _tempOriginalFrame = _tempImageView.frame;
-        _minScale = self.imageViewArray[self.currentImageIndex].frame.size.width/_tempOriginalFrame.size.width;
-        _minScale = isnan(_minScale)?0.1:_minScale;
+        CGFloat xScale = self.imageViewArray[self.currentImageIndex].frame.size.width/_tempOriginalFrame.size.width;
+        CGFloat yScale = self.imageViewArray[self.currentImageIndex].frame.size.height/_tempOriginalFrame.size.height;
+        xScale = isnan(xScale) ? 0.2 : xScale;
+        yScale = isnan(yScale) ? 0.2 : yScale;
+        _minScale = xScale < yScale ? xScale : yScale;
+        _minScale = isnan(_minScale) ? 0.2 :_minScale;
+        _minScale = _minScale > 1 ? 1 : _minScale;
         _maxYOffset = round(CGRectGetHeight(self.view.frame)*0.38);
         CGPoint point = [pan locationInView:self.view];
         _xDistance = CGRectGetMidX(_tempOriginalFrame)-point.x;
