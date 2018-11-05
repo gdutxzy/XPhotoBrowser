@@ -309,6 +309,9 @@
 }
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActionItems {
+    if (_touchPreviewActionItems) {
+        return _touchPreviewActionItems;
+    }
     NSMutableArray *arrItem = [NSMutableArray array];
     UIPreviewAction *saveImageAction = [UIPreviewAction actionWithTitle:@"保存图片" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         

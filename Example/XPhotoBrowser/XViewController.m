@@ -50,9 +50,10 @@
     [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:self.urlArray[1]]];
     [self.imageView1 sd_setImageWithURL:[NSURL URLWithString:self.urlArray[0]]];
     
-    [self registerForPreviewingWithDelegate:self sourceView:self.imageView1];
-    [self registerForPreviewingWithDelegate:self sourceView:self.imageView2];
-    
+    if (@available(iOS 9.0, *)) {
+        [self registerForPreviewingWithDelegate:self sourceView:self.imageView1];
+        [self registerForPreviewingWithDelegate:self sourceView:self.imageView2];
+    }
 }
 
 
@@ -69,7 +70,30 @@
     
     XPhotoBrowserVC *vc = [XPhotoBrowserVC photoBrowserWithImageURLs:urlArray images:nil imageViews:imageViewArray currentIndex:index];
     
-    
+    /*** 3dTouch 操作列表替换 ***/
+    UIPreviewAction *action1 = [UIPreviewAction actionWithTitle:@"action1" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        NSLog(@">>>UIPreviewAction1 click");
+    }];
+    UIPreviewAction *action2 = [UIPreviewAction actionWithTitle:@"action2" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        NSLog(@">>>UIPreviewAction2 click");
+    }];
+    switch (arc4random()%3) {
+        case 0:
+            vc.touchPreviewActionItems = @[action1,action2];
+            break;
+        case 1:
+            // 如果要清除内置的"保存图片"按钮，将其置用数组替代。
+            vc.touchPreviewActionItems = @[];
+            break;
+        case 2:
+            // 默认会显示"保存图片"按钮
+            vc.touchPreviewActionItems = nil;
+            break;
+        default:
+            vc.touchPreviewActionItems = nil;
+            break;
+    }
+
     return vc;
 }
 

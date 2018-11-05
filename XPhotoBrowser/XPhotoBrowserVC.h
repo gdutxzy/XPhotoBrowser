@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface XPhotoBrowserVC : UIViewController
 
 @property (nonatomic,strong,readonly) NSArray<UIImage*> *imageArray;
@@ -37,4 +38,8 @@
                                imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex;
 
+/// 3DTouch预览图出来后，向上滑动时出现的操作列表。UIPreviewAction数组。3DTouch相关只能在iOS9以上使用。
+@property (nonatomic,strong) NSArray* touchPreviewActionItems;
 @end
+
+
