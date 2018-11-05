@@ -11,9 +11,7 @@
 #import <UIImageView+WebCache.h>
 
 @interface XViewController ()<UIViewControllerPreviewingDelegate>
-@property (weak, nonatomic) IBOutlet UIImageView *imageView1;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView2;
-
+@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *imageViewArray;
 @property (strong,nonatomic) NSArray<NSString *> *urlArray;
 @end
 
@@ -22,7 +20,7 @@
     UIImageView *imageView = (UIImageView *)sender.view;
     
     NSArray *urlArray = self.urlArray;
-    NSArray *imageViewArray = @[self.imageView1,self.imageView2];
+    NSArray *imageViewArray = self.imageViewArray;
     NSInteger index = [imageViewArray indexOfObject:imageView];
     index = index == NSNotFound ? 0:index;
     
@@ -34,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg"];
+    self.urlArray = @[@"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2064500517,3561753544&fm=26&gp=0.jpg",@"http://img5.imgtn.bdimg.com/it/u=1505624731,3616873916&fm=27&gp=0.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541410039728&di=4f0f197fbe21041d177487f4dc72704a&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01cb11599aaeea0000002129536e52.gif"];
     
     NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
     if (userAgent) {
@@ -46,14 +44,18 @@
         }
         [[SDWebImageDownloader sharedDownloader] setValue:userAgent forHTTPHeaderField:@"User-Agent"];
     }
-    
-    [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:self.urlArray[1]]];
-    [self.imageView1 sd_setImageWithURL:[NSURL URLWithString:self.urlArray[0]]];
-    
-    if (@available(iOS 9.0, *)) {
-        [self registerForPreviewingWithDelegate:self sourceView:self.imageView1];
-        [self registerForPreviewingWithDelegate:self sourceView:self.imageView2];
+    for (NSInteger i = 0; i<self.imageViewArray.count; i++) {
+        UIImageView *imageView = self.imageViewArray[i];
+        if (i < self.urlArray.count) {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:self.urlArray[i]]];
+            if (@available(iOS 9.0, *)) {
+                [self registerForPreviewingWithDelegate:self sourceView:imageView];
+            }
+        }
     }
+
+
+   
 }
 
 
@@ -64,7 +66,7 @@
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
     NSArray *urlArray = self.urlArray;
-    NSArray *imageViewArray = @[self.imageView1,self.imageView2];
+    NSArray *imageViewArray = self.imageViewArray;
     NSInteger index = [imageViewArray indexOfObject:previewingContext.sourceView];
     index = index == NSNotFound ? 0:index;
     

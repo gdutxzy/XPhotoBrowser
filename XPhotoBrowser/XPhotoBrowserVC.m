@@ -22,8 +22,10 @@
 @property (nonatomic,strong) UIImageView *tempImageView;
 /// 跟随手势运动图片的初始Frame
 @property (nonatomic,assign) CGRect tempOriginalFrame;
-/// 跟随手势运动图片的最小倍数
-@property (nonatomic,assign) CGFloat minScale;
+/// 跟随手势运动图片的X轴最小倍数
+@property (nonatomic,assign) CGFloat minXScale;
+/// 跟随手势运动图片的Y轴最小倍数
+@property (nonatomic,assign) CGFloat minYScale;
 /// 图片Y位移达到多少时，背景全透明，图片达到允许的最小值
 @property (nonatomic,assign) CGFloat maxYOffset;
 /// 跟随手势运动的图片与手指位置的初始X距离
@@ -56,7 +58,7 @@
     
     // 计算预览大小
     CGFloat maxWidth = CGRectGetWidth([UIScreen mainScreen].bounds)-30;
-    CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds)-60;
+    CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds)-120;
     CGSize size = CGSizeMake(maxWidth, maxHeight);
     if (currentImageIndex < imageViewArray.count) {
         UIImage *image = imageViewArray[currentImageIndex].image;
@@ -156,13 +158,13 @@
         self.imageViewArray[self.currentImageIndex].hidden = YES;
 
         _tempOriginalFrame = _tempImageView.frame;
-        CGFloat xScale = self.imageViewArray[self.currentImageIndex].frame.size.width/_tempOriginalFrame.size.width;
-        CGFloat yScale = self.imageViewArray[self.currentImageIndex].frame.size.height/_tempOriginalFrame.size.height;
-        xScale = isnan(xScale) ? 0.2 : xScale;
-        yScale = isnan(yScale) ? 0.2 : yScale;
-        _minScale = xScale < yScale ? xScale : yScale;
-        _minScale = isnan(_minScale) ? 0.2 :_minScale;
-        _minScale = _minScale > 1 ? 1 : _minScale;
+        _minXScale = self.imageViewArray[self.currentImageIndex].frame.size.width/_tempOriginalFrame.size.width;
+        _minYScale = self.imageViewArray[self.currentImageIndex].frame.size.height/_tempOriginalFrame.size.height;
+        _minXScale = isnan(_minXScale) ? 0.2 : _minXScale;
+        _minYScale = isnan(_minYScale) ? 0.2 : _minYScale;
+        _minXScale = _minXScale > 1 ? 1 : _minXScale;
+        _minYScale = _minYScale > 1 ? 1 : _minYScale;
+        
         _maxYOffset = round(CGRectGetHeight(self.view.frame)*0.38);
         CGPoint point = [pan locationInView:self.view];
         _xDistance = CGRectGetMidX(_tempOriginalFrame)-point.x;
@@ -201,11 +203,12 @@
         CGFloat proportion = translation.y/self.maxYOffset;
         proportion = proportion > 1.0 ? 1.0 : (proportion < 0 ? 0 : proportion);
         self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:(1-proportion)];
-        CGFloat scale = 1-(1-self.minScale)*proportion;
-        self.tempImageView.width = round(CGRectGetWidth(self.tempOriginalFrame)*scale);
-        self.tempImageView.height = round(CGRectGetHeight(self.tempOriginalFrame)*scale);
-        self.tempImageView.centerX = _xDistance*scale+location.x;
-        self.tempImageView.centerY = _yDistance*scale+location.y;
+        CGFloat xscale = 1-(1-self.minXScale)*proportion;
+        CGFloat yscale = 1-(1-self.minYScale)*proportion;
+        self.tempImageView.width = round(CGRectGetWidth(self.tempOriginalFrame)*xscale);
+        self.tempImageView.height = round(CGRectGetHeight(self.tempOriginalFrame)*yscale);
+        self.tempImageView.centerX = _xDistance*xscale+location.x;
+        self.tempImageView.centerY = _yDistance*yscale+location.y;
     }
     
 }

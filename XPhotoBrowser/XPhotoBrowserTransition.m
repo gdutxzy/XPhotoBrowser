@@ -105,8 +105,12 @@
             size = CGSizeMake(maxWidth,round(maxWidth*imageSize.height/imageSize.width));
         }
     }
-    
-    return CGRectMake((maxWidth-size.width)/2, (maxHeight-size.height)/2, size.width, size.height);
+    CGFloat x = (maxWidth-size.width)/2;
+    CGFloat y = (maxHeight-size.height)/2;
+    // scrollView初始位移为(0,0),故当xy小于0时置0。
+    x = x > 0 ? x : 0;
+    y = y > 0 ? y : 0;
+    return CGRectMake(x, y, size.width, size.height);
 }
 
 
