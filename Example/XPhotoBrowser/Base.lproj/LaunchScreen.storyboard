@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,8 +22,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello World" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4Q-mB-c6i">
-                                <rect key="frame" x="109" y="314.5" width="158.5" height="38.5"/>
+                                <rect key="frame" x="108.5" y="314.5" width="158.5" height="38.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="示例中使用的图片为网络随机搜索所得，如有侵权，请及时联系作者。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LlE-0d-Exf">
+                                <rect key="frame" x="15" y="389" width="345" height="100.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -31,7 +37,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Y4Q-mB-c6i" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="5tE-bp-1RT"/>
+                            <constraint firstItem="LlE-0d-Exf" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="15" id="MuS-vH-LbZ"/>
+                            <constraint firstItem="LlE-0d-Exf" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="gxm-nY-kqw"/>
+                            <constraint firstAttribute="trailing" secondItem="LlE-0d-Exf" secondAttribute="trailing" constant="15" id="oKu-3o-XWk"/>
                             <constraint firstItem="Y4Q-mB-c6i" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="wp9-ju-EEY"/>
+                            <constraint firstItem="LlE-0d-Exf" firstAttribute="top" secondItem="Y4Q-mB-c6i" secondAttribute="bottom" constant="36" id="yM4-UT-c1C"/>
                         </constraints>
                     </view>
                 </viewController>
