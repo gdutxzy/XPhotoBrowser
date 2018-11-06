@@ -41,7 +41,7 @@
 }
 + (instancetype)photoBrowserWithImageURLs:(nullable NSArray<NSString*> *)imageUrlArray
                                    images:(nullable NSArray<UIImage*> *)imageArray
-                               imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray
+                               imageViews:(nonnull NSArray<__kindof UIView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex{
     
     currentImageIndex = currentImageIndex < 0 ? 0 : (currentImageIndex < imageViewArray.count?currentImageIndex:imageViewArray.count-1);
@@ -60,15 +60,26 @@
     CGFloat maxWidth = CGRectGetWidth([UIScreen mainScreen].bounds)-30;
     CGFloat maxHeight = CGRectGetHeight([UIScreen mainScreen].bounds)-120;
     CGSize size = CGSizeMake(maxWidth, maxHeight);
-    if (currentImageIndex < imageViewArray.count) {
-        UIImage *image = imageViewArray[currentImageIndex].image;
-        CGSize imageSize = image.size;
-        if (image && !isnan(imageSize.width) && !isnan(imageSize.height) && imageSize.width > 0 && imageSize.height > 0) {
-            if (imageSize.height/imageSize.width > maxHeight/maxWidth) { // 高度长图，以高度为比例基准
-                size = CGSizeMake(round(maxHeight*imageSize.width/imageSize.height), maxHeight);
-            }else{ // 以宽度为比例基准
-                size = CGSizeMake(maxWidth,round(maxWidth*imageSize.height/imageSize.width));
+    UIImage *image = nil;
+    if (currentImageIndex < imageArray.count) {
+        image = imageArray[currentImageIndex];
+    }
+    if (!image) {
+        if (currentImageIndex < imageViewArray.count) {
+            UIImageView *imageView = imageViewArray[currentImageIndex];
+            if ([imageView respondsToSelector:@selector(image)]) {
+                if ([[imageView image] isKindOfClass:[UIImage class]]) {
+                    image = [imageView image];
+                }
             }
+        }
+    }
+    CGSize imageSize = image.size;
+    if (image && !isnan(imageSize.width) && !isnan(imageSize.height) && imageSize.width > 0 && imageSize.height > 0) {
+        if (imageSize.height/imageSize.width > maxHeight/maxWidth) { // 高度长图，以高度为比例基准
+            size = CGSizeMake(round(maxHeight*imageSize.width/imageSize.height), maxHeight);
+        }else{ // 以宽度为比例基准
+            size = CGSizeMake(maxWidth,round(maxWidth*imageSize.height/imageSize.width));
         }
     }
     vc.preferredContentSize = size;
@@ -237,7 +248,12 @@
         imageUrl = self.imageUrlArray[indexPath.row];
     }
     if (!image) {
-        image = self.imageViewArray[indexPath.row].image;
+        UIImageView *imageView = self.imageViewArray[indexPath.row];
+        if ([imageView respondsToSelector:@selector(image)]) {
+            if ([[imageView image] isKindOfClass:[UIImage class]]) {
+                image = [imageView image];
+            }
+        }
     }
     [cell updateImageUrl:imageUrl image:image];
     cell.delegate = self;
@@ -266,6 +282,8 @@
 }
 #pragma mark - setter
 - (void)setCurrentImageIndex:(NSInteger)currentImageIndex{
+    currentImageIndex = currentImageIndex < 0 ? 0 : (currentImageIndex < _imageViewArray.count?currentImageIndex:_imageViewArray.count-1);
+
     _currentImageIndex = currentImageIndex;
     if (currentImageIndex < [self.collectionView numberOfItemsInSection:0]) {
         [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:currentImageIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];

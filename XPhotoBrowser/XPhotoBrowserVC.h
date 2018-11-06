@@ -13,7 +13,7 @@
 
 @property (nonatomic,strong,readonly) NSArray<UIImage*> *imageArray;
 @property (nonatomic,strong,readonly) NSArray<NSString*> *imageUrlArray;
-@property (nonatomic,strong,readonly) NSArray<UIImageView*> *imageViewArray;
+@property (nonatomic,strong,readonly) NSArray<__kindof UIView*> *imageViewArray;
 
 @property (nonatomic,assign) NSInteger currentImageIndex;
 /**
@@ -35,7 +35,7 @@
  */
 + (instancetype)photoBrowserWithImageURLs:(nullable NSArray<NSString*> *)imageUrlArray
                                    images:(nullable NSArray<UIImage*> *)imageArray
-                               imageViews:(nonnull NSArray<UIImageView*> *)imageViewArray
+                               imageViews:(nonnull NSArray<__kindof UIView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex;
 
 /// 3DTouch预览图出来后，向上滑动时出现的操作列表。UIPreviewAction数组。3DTouch相关只能在iOS9以上使用。

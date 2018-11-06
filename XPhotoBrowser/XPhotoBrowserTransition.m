@@ -31,7 +31,12 @@
         UIImageView *originalImageView = photoVC.imageViewArray[photoVC.currentImageIndex];
         originalImageView.hidden = photoVC.hiddenOrignView;
         
-        UIImage *image = originalImageView.image;
+        UIImage *image = nil;
+        if ([originalImageView respondsToSelector:@selector(image)]) {
+            if ([[originalImageView image] isKindOfClass:[UIImage class]]) {
+                image = [originalImageView image];
+            }
+        }
         if (photoVC.currentImageIndex < photoVC.imageArray.count) {
             image = photoVC.imageArray[photoVC.currentImageIndex];
         }
@@ -55,10 +60,10 @@
         }];
     }else if([fromVC isKindOfClass:[XPhotoBrowserVC class]]) { // dismiss
         XPhotoBrowserVC * photoVC = (XPhotoBrowserVC *)fromVC;
-        for (UIImageView *imageView in photoVC.imageViewArray) {
+        for (UIView *imageView in photoVC.imageViewArray) {
             imageView.hidden = NO;
         }
-        UIImageView *originalImageView = photoVC.imageViewArray[photoVC.currentImageIndex];
+        UIView *originalImageView = photoVC.imageViewArray[photoVC.currentImageIndex];
         originalImageView.hidden = photoVC.hiddenOrignView;
         UIImageView *currentImageView = photoVC.currentShowImageView;
         
