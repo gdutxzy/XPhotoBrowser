@@ -155,7 +155,7 @@
         for (UIImageView *view in self.imageViewArray) {
             view.hidden = NO;
         }
-        self.imageViewArray[self.currentImageIndex].hidden = YES;
+        self.imageViewArray[self.currentImageIndex].hidden = self.hiddenOrignView;
 
         _tempOriginalFrame = _tempImageView.frame;
         _minXScale = self.imageViewArray[self.currentImageIndex].frame.size.width/_tempOriginalFrame.size.width;
