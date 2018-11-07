@@ -80,7 +80,7 @@
         [containerView addSubview:imageView];
         
         fromVC.view.hidden = YES;
-        containerView.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
+        containerView.backgroundColor = fromVC.view.backgroundColor;
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
             imageView.frame = [originalImageView.superview convertRect:originalImageView.frame toView:containerView];
             containerView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];

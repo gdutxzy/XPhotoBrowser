@@ -185,8 +185,9 @@
         if (self.tempImageView.y > CGRectGetHeight(self.view.frame)*0.5) {
             _currentShowImageView = self.tempImageView;
             cell.delegate = nil;
+            UIImageView *imageView = self.imageViewArray[self.currentImageIndex];
             [UIView animateWithDuration:0.3 animations:^{
-                self.tempImageView.frame = self.imageViewArray[self.currentImageIndex].frame;
+                self.tempImageView.frame = [imageView.superview convertRect:imageView.frame toView:self.view];
                 self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
             }completion:^(BOOL finished) {
                 self.imageViewArray[self.currentImageIndex].hidden = NO;
