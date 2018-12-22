@@ -1,6 +1,6 @@
 {
   "name": "XPhotoBrowser",
-  "version": "1.0.3",
+  "version": "1.0.8",
   "summary": "PhotoBrowser,supports 3D-Touch,Drag to disappear",
   "description": "'PhotoBrowser  is an image browser , it supports 3D-Touch , rotating the screen , zooming images , Drag to disappear'",
   "homepage": "https://github.com/gdutxzy/XPhotoBrowser",
@@ -13,14 +13,14 @@
   },
   "source": {
     "git": "https://github.com/gdutxzy/XPhotoBrowser.git",
-    "tag": "1.0.3"
+    "tag": "1.0.8"
   },
   "platforms": {
     "ios": "8.0"
   },
   "requires_arc": true,
   "source_files": "XPhotoBrowser/**/*",
-  "public_header_files": "Pod/**/*.h",
+  "private_header_files": "XPhotoBrowser/XPhotoBrowserTransition.h",
   "frameworks": "UIKit",
   "dependencies": {
     "SDWebImage": [

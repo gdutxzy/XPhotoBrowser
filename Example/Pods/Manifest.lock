@@ -1,8 +1,8 @@
 PODS:
-  - SDWebImage (4.3.3):
-    - SDWebImage/Core (= 4.3.3)
-  - SDWebImage/Core (4.3.3)
-  - XPhotoBrowser (1.0.3):
+  - SDWebImage (4.4.3):
+    - SDWebImage/Core (= 4.4.3)
+  - SDWebImage/Core (4.4.3)
+  - XPhotoBrowser (1.0.8):
     - SDWebImage
 
 DEPENDENCIES:
@@ -13,8 +13,8 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
-  XPhotoBrowser: fcb9042f6a2ad61d04695e2fd391fe8ab027a4c7
+  SDWebImage: c5594f1a19c48d526d321e548902b56b479cd508
+  XPhotoBrowser: 55e66f0fd75bd6413b1a8705fbd69c5532212808
 
 PODFILE CHECKSUM: 7a2769f2cde4e9d9962d310229200f3982f63f44
 

@@ -13,7 +13,6 @@
 #import "UIView+XExtension.h"
 #import "XPhotoBrowser.h"
 #import "XPhotoBrowserCell.h"
-#import "XPhotoBrowserTransition.h"
 #import "XPhotoBrowserVC.h"
 
 FOUNDATION_EXPORT double XPhotoBrowserVersionNumber;

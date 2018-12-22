@@ -39,6 +39,8 @@ Pod::Spec.new do |s|
   # }
 
   # s.public_header_files = 'Pod/**/*.h'
+  s.private_header_files = 'XPhotoBrowser/XPhotoBrowserTransition.h','XPhotoBrowser/XPhotoBrowserCell.h'
+
   s.frameworks = 'UIKit'
   s.dependency 'SDWebImage'
 end
