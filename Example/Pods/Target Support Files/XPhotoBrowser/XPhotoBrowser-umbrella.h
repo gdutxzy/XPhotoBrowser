@@ -10,9 +10,8 @@
 #endif
 #endif
 
-#import "UIView+XExtension.h"
 #import "XPhotoBrowser.h"
-#import "XPhotoBrowserCell.h"
+#import "UIView+XExtension.h"
 #import "XPhotoBrowserVC.h"
 
 FOUNDATION_EXPORT double XPhotoBrowserVersionNumber;
