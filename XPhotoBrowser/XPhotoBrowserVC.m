@@ -41,11 +41,25 @@
 }
 + (instancetype)photoBrowserWithImageURLs:(nullable NSArray<NSString*> *)imageUrlArray
                                    images:(nullable NSArray<UIImage*> *)imageArray
-                               imageViews:(nonnull NSArray<__kindof UIView*> *)imageViewArray
+                               imageViews:(nullable NSArray<__kindof UIView*> *)imageViewArray
                              currentIndex:(NSInteger)currentImageIndex{
     
     currentImageIndex = currentImageIndex < 0 ? 0 : (currentImageIndex < imageViewArray.count?currentImageIndex:imageViewArray.count-1);
 
+    if (!imageViewArray) {
+        NSInteger count = imageArray.count;
+        count = count > imageUrlArray.count ? count : imageUrlArray.count;
+        NSMutableArray *array = [NSMutableArray arrayWithCapacity:count];
+        for (NSInteger i = 0; i < count ; i++) {
+            [array addObject:({
+                UIImageView * view = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMidX([UIScreen mainScreen].bounds), CGRectGetMidY([UIScreen mainScreen].bounds), 60, 60)];
+                view;
+            })] ;
+        }
+        imageViewArray = array;
+    }
+    
+    
     XPhotoBrowserVC *vc = [[XPhotoBrowserVC alloc] init];
     vc.modalPresentationStyle = UIModalPresentationOverCurrentContext; // 保留上一层viewcontroller
     vc->_hiddenOrignView = YES;

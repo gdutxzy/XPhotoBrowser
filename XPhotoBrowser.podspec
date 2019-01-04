@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XPhotoBrowser'
-  s.version          = '1.0.9'
+  s.version          = '1.1.0'
   s.summary          = 'PhotoBrowser,supports 3D-Touch,Drag to disappear'
 
 # This description is used to generate tags and improve search results.
@@ -38,9 +38,7 @@ Pod::Spec.new do |s|
   #   'XPhotoBrowser' => ['XPhotoBrowser/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/**/*.h'
-  s.private_header_files = 'XPhotoBrowser/XPhotoBrowserTransition.h','XPhotoBrowser/XPhotoBrowserCell.h'
-
+  s.public_header_files = 'XPhotoBrowser/XPhotoBrowser.h','XPhotoBrowser/UIView+XExtension.h','XPhotoBrowser/XPhotoBrowserVC.h'
   s.frameworks = 'UIKit'
   s.dependency 'SDWebImage'
 end
