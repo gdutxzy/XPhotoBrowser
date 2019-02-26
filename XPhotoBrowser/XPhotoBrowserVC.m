@@ -201,8 +201,12 @@
             cell.delegate = nil;
             UIImageView *imageView = self.imageViewArray[self.currentImageIndex];
             [UIView animateWithDuration:0.3 animations:^{
-                self.tempImageView.frame = [imageView.superview convertRect:imageView.frame toView:self.view];
-                self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+                if (imageView.superview) {
+                    self.tempImageView.frame = [imageView.superview convertRect:imageView.frame toView:self.view];
+                    self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+                }else{
+                    self.view.alpha = 0;
+                }
             }completion:^(BOOL finished) {
                 self.imageViewArray[self.currentImageIndex].hidden = NO;
                 [self dismissViewControllerAnimated:NO completion:nil];

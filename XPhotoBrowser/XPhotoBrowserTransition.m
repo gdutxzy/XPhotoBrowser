@@ -82,8 +82,12 @@
         fromVC.view.hidden = YES;
         containerView.backgroundColor = fromVC.view.backgroundColor;
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-            imageView.frame = [originalImageView.superview convertRect:originalImageView.frame toView:containerView];
-            containerView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+            if (originalImageView.superview) {
+                 imageView.frame = [originalImageView.superview convertRect:originalImageView.frame toView:containerView];
+                containerView.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
+            }else{
+                containerView.alpha = 0;
+            }
         } completion:^(BOOL finished) {
             [imageView removeFromSuperview];
             originalImageView.hidden = NO;
