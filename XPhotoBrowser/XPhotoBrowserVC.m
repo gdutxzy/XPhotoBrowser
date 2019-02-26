@@ -235,8 +235,10 @@
         self.view.backgroundColor = [UIColor colorWithWhite:0 alpha:(1-proportion)];
         CGFloat xscale = 1-(1-self.minXScale)*proportion;
         CGFloat yscale = 1-(1-self.minYScale)*proportion;
-        self.tempImageView.width = round(CGRectGetWidth(self.tempOriginalFrame)*xscale);
-        self.tempImageView.height = round(CGRectGetHeight(self.tempOriginalFrame)*yscale);
+        CGFloat tempWidth = round(CGRectGetWidth(self.tempOriginalFrame)*xscale);
+        CGFloat tempHeight = round(CGRectGetHeight(self.tempOriginalFrame)*yscale);
+        self.tempImageView.width = tempWidth > 50 ? tempWidth:50;
+        self.tempImageView.height = tempHeight > 50 ? tempHeight:50;
         self.tempImageView.centerX = _xDistance*xscale+location.x;
         self.tempImageView.centerY = _yDistance*yscale+location.y;
     }
